@@ -524,7 +524,8 @@ window.addEventListener('DOMContentLoaded', () => {
 <script>
 // ── CONFIG ──
 const CONFIG = {
-  // Netlify Functions — no URL needed, works automatically on swingdoc.netlify.app
+  // Set this to your Vercel URL after deploying the backend
+  // e.g. 'https://swingdoc-api.vercel.app/api/analyze'
   API_ENDPOINT: '/.netlify/functions/analyze',
   FREE_LIMIT: 3,
 };
@@ -592,7 +593,7 @@ function finishSetup() {
   const k = document.getElementById('inp-key').value.trim();
   if (!k) { alert('Please paste your Anthropic API key.'); return; }
   if (!k.startsWith('sk-')) { alert('That doesn\'t look right — the key should start with sk-ant-...'); return; }
-  S.apiKey = k;
+  localStorage.setItem('sd_key', k);
   launch();
 }
 function signIn() {
@@ -739,16 +740,10 @@ Provide exactly ${drillN} drill objects. Be specific — a kid with no coach sho
   setStep(3);
   let data;
   try {
-    // Sends through your Vercel proxy — the API key lives securely on the server
-    const endpoint = CONFIG.API_ENDPOINT;
-    if (!endpoint) {
-      throw new Error('Backend not configured. Make sure netlify.toml and netlify/functions/analyze.js are in your deployment folder.');
-    }
-
-    const res = await fetch(endpoint, {
+    const res = await fetch('/.netlify/functions/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: [{ role: 'user', content }], isPro })
+      body: JSON.stringify({ messages: [{ role: 'user', content }], isPro }),
     });
 
     if (!res.ok) {
