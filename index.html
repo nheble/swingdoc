@@ -671,8 +671,8 @@ function isMobileSafari() {
 // ── FRAME CAPTURE ──
 function snapFrame(video, quality) {
   const c = document.createElement('canvas');
-  c.width = Math.min(video.videoWidth || 640, 960);
-  c.height = Math.min(video.videoHeight || 360, 540);
+  c.width = Math.min(video.videoWidth || 640, 640);
+  c.height = Math.min(video.videoHeight || 360, 360);
   c.getContext('2d').drawImage(video, 0, 0, c.width, c.height);
   const dataUrl = c.toDataURL('image/jpeg', quality || 0.72);
   return dataUrl.length > 200 ? dataUrl.split(',')[1] : null;
@@ -695,25 +695,22 @@ async function tryCapture(video) {
   video.pause();
   await new Promise(r => setTimeout(r, 200));
 
-  // Always grab current frame first
+  // Capture current frame
   try {
-    const f = snapFrame(video, 0.75);
+    const f = snapFrame(video, 0.55); // lower quality = smaller payload
     if (f) frames.push(f);
-  } catch(e) { console.warn('Frame 1 failed:', e.message); }
+  } catch(e) { console.warn('Frame capture failed:', e.message); }
 
-  // Try to seek to 25%, 50%, 75% of the video for more coverage
+  // Try one more frame at the midpoint
   const dur = video.duration;
   if (dur && dur > 0.5 && frames.length > 0) {
-    for (const pct of [0.25, 0.5, 0.75]) {
-      try {
-        const ok = await seekTo(video, dur * pct);
-        if (ok) {
-          const f = snapFrame(video, 0.72);
-          if (f) frames.push(f);
-        }
-      } catch(e) { /* seek failed, skip */ }
-      if (frames.length >= 3) break; // max 3 frames to keep API payload reasonable
-    }
+    try {
+      const ok = await seekTo(video, dur * 0.5);
+      if (ok) {
+        const f = snapFrame(video, 0.5);
+        if (f) frames.push(f);
+      }
+    } catch(e) { /* seek failed */ }
   }
 
   console.log(`Captured ${frames.length} frame(s)`);
