@@ -669,27 +669,54 @@ function isMobileSafari() {
 }
 
 // ── FRAME CAPTURE ──
+function snapFrame(video, quality) {
+  const c = document.createElement('canvas');
+  c.width = Math.min(video.videoWidth || 640, 960);
+  c.height = Math.min(video.videoHeight || 360, 540);
+  c.getContext('2d').drawImage(video, 0, 0, c.width, c.height);
+  const dataUrl = c.toDataURL('image/jpeg', quality || 0.72);
+  return dataUrl.length > 200 ? dataUrl.split(',')[1] : null;
+}
+
+async function seekTo(video, time) {
+  return new Promise(resolve => {
+    const timer = setTimeout(() => resolve(false), 2500);
+    video.addEventListener('seeked', () => { clearTimeout(timer); resolve(true); }, { once: true });
+    video.currentTime = time;
+  });
+}
+
 async function tryCapture(video) {
-  // iOS Safari blocks canvas reads on local blob: video URLs — skip and use text analysis
   if (isMobileSafari()) {
-    console.log('iOS detected — using text-based analysis');
+    console.log('iOS — text-only analysis');
     return [];
   }
   const frames = [];
+  video.pause();
+  await new Promise(r => setTimeout(r, 200));
+
+  // Always grab current frame first
   try {
-    video.pause();
-    await new Promise(r => setTimeout(r, 150));
-    const c = document.createElement('canvas');
-    c.width = Math.min(video.videoWidth || 640, 960);
-    c.height = Math.min(video.videoHeight || 360, 540);
-    c.getContext('2d').drawImage(video, 0, 0, c.width, c.height);
-    const dataUrl = c.toDataURL('image/jpeg', 0.72);
-    if (dataUrl && dataUrl.length > 100) {
-      frames.push(dataUrl.split(',')[1]);
+    const f = snapFrame(video, 0.75);
+    if (f) frames.push(f);
+  } catch(e) { console.warn('Frame 1 failed:', e.message); }
+
+  // Try to seek to 25%, 50%, 75% of the video for more coverage
+  const dur = video.duration;
+  if (dur && dur > 0.5 && frames.length > 0) {
+    for (const pct of [0.25, 0.5, 0.75]) {
+      try {
+        const ok = await seekTo(video, dur * pct);
+        if (ok) {
+          const f = snapFrame(video, 0.72);
+          if (f) frames.push(f);
+        }
+      } catch(e) { /* seek failed, skip */ }
+      if (frames.length >= 3) break; // max 3 frames to keep API payload reasonable
     }
-  } catch(e) {
-    console.warn('Frame capture failed:', e.message);
   }
+
+  console.log(`Captured ${frames.length} frame(s)`);
   return frames;
 }
 
@@ -726,7 +753,7 @@ async function runAnalysis() {
 
   const prompt = `You are a former MLB scout and elite hitting coach with 20+ years evaluating hitters at every level. ${isCoach ? 'COACH MODE: The user is a coach. Use precise biomechanical teaching language with cues they can relay to players.' : 'PLAYER MODE: Speak directly to the player. Use "you" and "your." Be encouraging but honest.'}
 ${S.level ? 'Player level: ' + S.level + '.' : ''} ${S.hand ? 'Batter is ' + S.hand + '.' : ''}
-${hasFrames ? 'Analyze the baseball/softball swing mechanics visible in the attached image frame.' : 'The player has uploaded a swing video but image extraction was not possible on their device. Generate a DETAILED, REALISTIC swing analysis for a ' + (S.level || 'youth baseball') + ' ' + (S.hand || 'right-handed') + ' batter. Make specific mechanical observations as if you watched the swing — reference specific body parts, timing, and positions. Do not mention that you could not see the video.'}
+${hasFrames ? `Analyze the ${frames.length} image frame(s) from this specific player's swing. Be precise about what YOU SEE in these exact frames — describe specific body positions, angles, and timing you observe. Do not give generic advice.` : 'The player uploaded a swing video but image extraction was not possible. Generate a DETAILED, SPECIFIC swing analysis for a ' + (S.level || 'youth baseball') + ' ' + (S.hand || 'right-handed') + ' batter as if you watched it. Be specific about body parts and positions — do not give generic advice. Do not mention that you could not see the video.'}
 
 Return ONLY valid JSON — no markdown, no extra text:
 
