@@ -679,7 +679,16 @@ function snapFrame(video, quality) {
   const c = document.createElement('canvas');
   c.width = Math.min(video.videoWidth || 640, 640);
   c.height = Math.min(video.videoHeight || 360, 360);
-  c.getContext('2d').drawImage(video, 0, 0, c.width, c.height);
+  const ctx = c.getContext('2d');
+  ctx.drawImage(video, 0, 0, c.width, c.height);
+  // Check for black frame by sampling pixels
+  const sample = ctx.getImageData(c.width/2 - 10, c.height/2 - 10, 20, 20);
+  let total = 0;
+  for (let i = 0; i < sample.data.length; i += 4) {
+    total += sample.data[i] + sample.data[i+1] + sample.data[i+2];
+  }
+  const avgBrightness = total / (sample.data.length / 4 * 3);
+  if (avgBrightness < 8) return null; // frame is black, reject it
   const dataUrl = c.toDataURL('image/jpeg', quality || 0.72);
   return dataUrl.length > 200 ? dataUrl.split(',')[1] : null;
 }
@@ -698,18 +707,8 @@ async function tryCapture(video) {
   const frames = [];
   const dur = video.duration || 0;
 
-  // Check if a frame is black/empty
-  function isBlackFrame(b64) {
-    if (!b64 || b64.length < 500) return true;
-    // Decode a small sample — black frames are very small after JPEG compression
-    return b64.length < 800;
-  }
-
   function snap(q) {
-    try {
-      const f = snapFrame(video, q || 0.55);
-      return (f && !isBlackFrame(f)) ? f : null;
-    } catch(e) { return null; }
+    try { return snapFrame(video, q || 0.55) || null; } catch(e) { return null; }
   }
 
   // Ensure video is ready with actual pixel data
@@ -721,28 +720,31 @@ async function tryCapture(video) {
     });
   }
 
-  // Strategy 1: paused capture (desktop + Android)
-  video.pause();
-  await ensureReady(2000);
-  await new Promise(r => setTimeout(r, 300)); // extra settle time
+  const isIOS = isMobileSafari();
 
-  const pausedFrame = snap(0.55);
-  if (pausedFrame) {
-    frames.push(pausedFrame);
-    if (dur > 1) {
-      const ok = await seekTo(video, dur * 0.45);
-      if (ok) { await new Promise(r => setTimeout(r, 150)); const f = snap(0.50); if (f) frames.push(f); }
-      const ok2 = await seekTo(video, dur * 0.65);
-      if (ok2) { await new Promise(r => setTimeout(r, 150)); const f2 = snap(0.50); if (f2) frames.push(f2); }
-    }
-    if (frames.length > 0) {
-      console.log(`Paused capture: ${frames.length} frame(s)`);
-      return frames;
+  // Strategy 1: paused capture (desktop + Android only — iOS always blacks out on pause)
+  if (!isIOS) {
+    video.pause();
+    await ensureReady(2000);
+    await new Promise(r => setTimeout(r, 300));
+    const pausedFrame = snap(0.55);
+    if (pausedFrame) {
+      frames.push(pausedFrame);
+      if (dur > 1) {
+        const ok = await seekTo(video, dur * 0.45);
+        if (ok) { await new Promise(r => setTimeout(r, 150)); const f = snap(0.50); if (f) frames.push(f); }
+        const ok2 = await seekTo(video, dur * 0.65);
+        if (ok2) { await new Promise(r => setTimeout(r, 150)); const f2 = snap(0.50); if (f2) frames.push(f2); }
+      }
+      if (frames.length > 0) {
+        console.log(`Paused capture: ${frames.length} frame(s)`);
+        return frames;
+      }
     }
   }
 
-  // Strategy 2: active-playback (iOS Safari — keeps video playing while snapping)
-  console.log('Paused capture got black frames, trying active playback (iOS mode)');
+  // Strategy 2: active-playback (iOS Safari — must keep video playing to get real pixels)
+  console.log(isIOS ? 'iOS detected — using active playback capture' : 'Paused capture got black frames, trying active playback');
   video.muted = true;
   video.playsInline = true;
   video.currentTime = 0;
@@ -767,12 +769,12 @@ async function tryCapture(video) {
       const targetTime = snapTimes[snapIdx];
       if (video.currentTime >= targetTime) {
         // Wait 2 extra frames for iOS to paint
-        requestAnimationFrame(() => requestAnimationFrame(() => {
+        requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(() => {
           const f = snap(0.55);
           if (f) frames.push(f);
           snapIdx++;
           trySnap();
-        }));
+        })));
       }
     }
 
