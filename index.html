@@ -698,51 +698,92 @@ async function tryCapture(video) {
   const frames = [];
   const dur = video.duration || 0;
 
-  function snap(q) {
-    try { return snapFrame(video, q || 0.55); } catch(e) { return null; }
+  // Check if a frame is black/empty
+  function isBlackFrame(b64) {
+    if (!b64 || b64.length < 500) return true;
+    // Decode a small sample — black frames are very small after JPEG compression
+    return b64.length < 800;
   }
 
-  // Strategy 1: paused capture (works on most browsers inc. desktop Safari)
+  function snap(q) {
+    try {
+      const f = snapFrame(video, q || 0.55);
+      return (f && !isBlackFrame(f)) ? f : null;
+    } catch(e) { return null; }
+  }
+
+  // Ensure video is ready with actual pixel data
+  async function ensureReady(timeoutMs) {
+    return new Promise(resolve => {
+      if (video.readyState >= 3) { resolve(true); return; }
+      const t = setTimeout(() => resolve(false), timeoutMs || 3000);
+      video.addEventListener('canplay', () => { clearTimeout(t); resolve(true); }, { once: true });
+    });
+  }
+
+  // Strategy 1: paused capture (desktop + Android)
   video.pause();
-  await new Promise(r => setTimeout(r, 150));
+  await ensureReady(2000);
+  await new Promise(r => setTimeout(r, 300)); // extra settle time
+
   const pausedFrame = snap(0.55);
   if (pausedFrame) {
     frames.push(pausedFrame);
     if (dur > 1) {
       const ok = await seekTo(video, dur * 0.45);
-      if (ok) { const f = snap(0.50); if (f) frames.push(f); }
+      if (ok) { await new Promise(r => setTimeout(r, 150)); const f = snap(0.50); if (f) frames.push(f); }
       const ok2 = await seekTo(video, dur * 0.65);
-      if (ok2) { const f2 = snap(0.50); if (f2) frames.push(f2); }
+      if (ok2) { await new Promise(r => setTimeout(r, 150)); const f2 = snap(0.50); if (f2) frames.push(f2); }
     }
-    console.log(`Paused capture: ${frames.length} frame(s)`);
-    return frames;
+    if (frames.length > 0) {
+      console.log(`Paused capture: ${frames.length} frame(s)`);
+      return frames;
+    }
   }
 
-  // Strategy 2: active-playback snapping (iOS Safari fallback)
-  console.log('Trying active playback capture (iOS mode)');
-  const snapTimes = dur > 1 ? [dur * 0.25, dur * 0.45, dur * 0.65] : [0.05];
+  // Strategy 2: active-playback (iOS Safari — keeps video playing while snapping)
+  console.log('Paused capture got black frames, trying active playback (iOS mode)');
   video.muted = true;
+  video.playsInline = true;
   video.currentTime = 0;
+  await new Promise(r => setTimeout(r, 200));
 
-  for (const t of snapTimes) {
-    await new Promise(resolve => {
-      let resolved = false;
-      const timeout = setTimeout(() => { if (!resolved) { resolved = true; resolve(); } }, 3000);
-      video.addEventListener('timeupdate', function onTU() {
-        if (video.currentTime >= t - 0.05) {
-          video.removeEventListener('timeupdate', onTU);
-          clearTimeout(timeout);
-          if (!resolved) {
-            resolved = true;
-            const f = snap(0.55);
-            if (f) frames.push(f);
-            resolve();
-          }
-        }
-      });
-      video.play().catch(() => { clearTimeout(timeout); if (!resolved) { resolved = true; resolve(); } });
+  const snapTimes = dur > 1 ? [dur * 0.25, dur * 0.45, dur * 0.65] : [dur * 0.5];
+
+  await new Promise(resolve => {
+    let done = false;
+    const timeout = setTimeout(() => { if (!done) { done = true; resolve(); } }, 8000);
+
+    let snapIdx = 0;
+
+    function trySnap() {
+      if (snapIdx >= snapTimes.length) {
+        clearTimeout(timeout);
+        video.pause();
+        video.removeEventListener('timeupdate', onTimeUpdate);
+        if (!done) { done = true; resolve(); }
+        return;
+      }
+      const targetTime = snapTimes[snapIdx];
+      if (video.currentTime >= targetTime) {
+        // Wait 2 extra frames for iOS to paint
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          const f = snap(0.55);
+          if (f) frames.push(f);
+          snapIdx++;
+          trySnap();
+        }));
+      }
+    }
+
+    function onTimeUpdate() { trySnap(); }
+    video.addEventListener('timeupdate', onTimeUpdate);
+    video.play().catch(() => {
+      clearTimeout(timeout);
+      video.removeEventListener('timeupdate', onTimeUpdate);
+      if (!done) { done = true; resolve(); }
     });
-  }
+  });
 
   video.pause();
   console.log(`Active playback capture: ${frames.length} frame(s)`);
@@ -751,11 +792,11 @@ async function tryCapture(video) {
 
 // ── STEP INDICATOR ──
 const STAGES = [
-  { stage: 'Capturing swing frames...', sub: 'Locking on to your mechanics', pct: 8,  score: 12 },
-  { stage: 'Reading body positions...', sub: 'Tracking hip rotation & shoulder alignment', pct: 30, score: 34 },
-  { stage: 'Identifying what to fix...', sub: 'Comparing against elite swing mechanics', pct: 56, score: 58 },
-  { stage: 'Building your drill plan...', sub: 'Customizing to your level & style', pct: 80, score: 75 },
-  { stage: 'Finalizing your report...', sub: 'Almost ready — this will be worth it', pct: 94, score: 82 },
+  { stage: 'Capturing swing frames...', sub: 'Locking on to your mechanics', pct: 8,  score: 8 },
+  { stage: 'Reading body positions...', sub: 'Tracking hip rotation & shoulder alignment', pct: 30, score: 28 },
+  { stage: 'Identifying what to fix...', sub: 'Comparing against elite swing mechanics', pct: 56, score: 51 },
+  { stage: 'Building your drill plan...', sub: 'Customizing to your level & style', pct: 80, score: 68 },
+  { stage: 'Finalizing your report...', sub: 'Almost ready — this will be worth it', pct: 94, score: 79 },
 ];
 
 let _scoreTimer = null;
@@ -770,7 +811,8 @@ function animateScoreTo(target, duration) {
   _scoreTimer = setInterval(() => {
     step++;
     const progress = step / steps;
-    const eased = progress < 1 ? progress : 1;
+    // Ease out — fast start, slow finish for suspense
+    const eased = 1 - Math.pow(1 - progress, 2);
     _currentDisplayScore = Math.round(start + diff * eased);
     const numEl = document.getElementById('load-score-num');
     if (numEl) numEl.textContent = _currentDisplayScore;
@@ -778,7 +820,7 @@ function animateScoreTo(target, duration) {
     const fillEl = document.getElementById('load-ring-fill');
     if (fillEl) fillEl.style.background = `conic-gradient(var(--cyan) ${deg}deg, transparent ${deg}deg)`;
     if (step >= steps) clearInterval(_scoreTimer);
-  }, 30);
+  }, 55);
 }
 
 function setStep(n) {
@@ -794,7 +836,7 @@ function setStep(n) {
     if (barEl) barEl.style.width = s.pct + '%';
     stageEl.style.opacity = '1'; subEl.style.opacity = '1';
   }, 250);
-  animateScoreTo(s.score, 600);
+  animateScoreTo(s.score, 1800);
 }
 
 function startLoadParticles() {
@@ -888,7 +930,7 @@ function render(data) {
   const score = data.overallScore || 0;
 
   // Animate to real score, pause, then reveal report
-  animateScoreTo(score, 900);
+  animateScoreTo(score, 1200);
   setTimeout(() => {
     document.getElementById('load-section').style.display = 'none';
     document.getElementById('res-section').style.display = 'block';
