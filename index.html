@@ -174,17 +174,29 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 
 /* loading */
 #load-section{display:none;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:2.2rem;text-align:center;margin-bottom:1.3rem;}
-.spin{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--cyan);border-radius:50%;margin:0 auto 1rem;animation:spin .75s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.load-h{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:.25rem;}
-.load-p{color:var(--muted);font-size:.8rem;margin-bottom:1.3rem;}
-.steps{text-align:left;max-width:260px;margin:0 auto;}
-.step-row{display:flex;align-items:center;gap:.6rem;padding:.38rem 0;font-size:.78rem;color:var(--muted);transition:color .3s;}
-.step-row.on{color:var(--white);}
-.step-row.ok{color:var(--green);}
-.sdot{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s,box-shadow .3s;}
-.step-row.on .sdot{background:var(--cyan);box-shadow:0 0 7px var(--cyan);}
-.step-row.ok .sdot{background:var(--green);}
+/* ── CINEMATIC LOADER ── */
+#load-section{display:none;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.3rem;position:relative;}
+.radar-wrap{position:relative;width:160px;height:160px;margin:2rem auto 1.5rem;flex-shrink:0;}
+.radar-ring{position:absolute;border-radius:50%;border:1px solid rgba(78,200,228,.18);}
+.radar-ring:nth-child(1){inset:0;}
+.radar-ring:nth-child(2){inset:20px;}
+.radar-ring:nth-child(3){inset:40px;}
+.radar-ring:nth-child(4){inset:60px;}
+.radar-sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(rgba(78,200,228,.55) 0deg,rgba(78,200,228,.08) 60deg,transparent 90deg);animation:sweep 1.8s linear infinite;transform-origin:center;}
+@keyframes sweep{to{transform:rotate(360deg);}}
+.radar-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);transition:opacity .4s;}
+.radar-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:10px;height:10px;background:var(--cyan);border-radius:50%;box-shadow:0 0 12px var(--cyan);}
+.radar-crosshair{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.radar-crosshair::before{content:'';position:absolute;width:100%;height:1px;background:rgba(78,200,228,.12);}
+.radar-crosshair::after{content:'';position:absolute;width:1px;height:100%;background:rgba(78,200,228,.12);}
+.load-content{padding:0 2rem 2rem;text-align:center;}
+.load-stage{font-family:'Barlow Condensed',sans-serif;font-size:1.35rem;font-weight:800;color:var(--cyan);min-height:1.8rem;letter-spacing:.04em;transition:opacity .3s;}
+.load-sub{color:var(--muted);font-size:.8rem;margin-top:.25rem;min-height:1.2rem;transition:opacity .3s;}
+.load-bar-wrap{width:100%;background:var(--navy3);border-radius:4px;height:4px;margin-top:1.2rem;overflow:hidden;}
+.load-bar{height:4px;background:linear-gradient(90deg,var(--cyan),var(--blue2));border-radius:4px;width:0%;transition:width .6s ease;}
+.load-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.lp{position:absolute;width:2px;height:2px;background:var(--cyan);border-radius:50%;opacity:0;animation:lpFloat 3s ease-in-out infinite;}
+@keyframes lpFloat{0%{opacity:0;transform:translateY(0) scale(0);}20%{opacity:.6;}80%{opacity:.3;}100%{opacity:0;transform:translateY(-80px) scale(1.5);}}
 
 /* SCORE */
 .score-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.3rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
@@ -494,14 +506,20 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div id="load-section">
-      <div class="spin"></div>
-      <div class="load-h">Reading Your Swing...</div>
-      <div class="load-p">Our scout is breaking down your mechanics frame by frame</div>
-      <div class="steps">
-        <div class="step-row" id="st1"><div class="sdot"></div>Processing your video</div>
-        <div class="step-row" id="st2"><div class="sdot"></div>Analyzing body mechanics</div>
-        <div class="step-row" id="st3"><div class="sdot"></div>Identifying what to fix</div>
-        <div class="step-row" id="st4"><div class="sdot"></div>Building your drill plan</div>
+      <div class="load-particles" id="load-particles"></div>
+      <div class="radar-wrap">
+        <div class="radar-ring"></div><div class="radar-ring"></div><div class="radar-ring"></div><div class="radar-ring"></div>
+        <div class="radar-sweep"></div>
+        <div class="radar-crosshair"></div>
+        <div class="radar-center"></div>
+        <div class="radar-dot" id="rd1" style="top:18%;left:62%;"></div>
+        <div class="radar-dot" id="rd2" style="top:65%;left:28%;opacity:0;"></div>
+        <div class="radar-dot" id="rd3" style="top:45%;left:72%;opacity:0;"></div>
+      </div>
+      <div class="load-content">
+        <div class="load-stage" id="load-stage">Capturing swing frames...</div>
+        <div class="load-sub" id="load-sub">Locking on to your mechanics</div>
+        <div class="load-bar-wrap"><div class="load-bar" id="load-bar"></div></div>
       </div>
     </div>
 
@@ -686,42 +704,102 @@ async function seekTo(video, time) {
   });
 }
 
+// Option C: Active-playback snapping — works on iOS Safari
+// Safari blocks canvas reads on paused blob: URLs but allows it during active play
 async function tryCapture(video) {
-  if (isMobileSafari()) {
-    console.log('iOS — text-only analysis');
-    return [];
-  }
   const frames = [];
-  video.pause();
-  await new Promise(r => setTimeout(r, 200));
+  const dur = video.duration || 0;
 
-  // Capture current frame
-  try {
-    const f = snapFrame(video, 0.55); // lower quality = smaller payload
-    if (f) frames.push(f);
-  } catch(e) { console.warn('Frame capture failed:', e.message); }
-
-  // Try one more frame at the midpoint
-  const dur = video.duration;
-  if (dur && dur > 0.5 && frames.length > 0) {
-    try {
-      const ok = await seekTo(video, dur * 0.5);
-      if (ok) {
-        const f = snapFrame(video, 0.5);
-        if (f) frames.push(f);
-      }
-    } catch(e) { /* seek failed */ }
+  function snap(q) {
+    try { return snapFrame(video, q || 0.55); } catch(e) { return null; }
   }
 
-  console.log(`Captured ${frames.length} frame(s)`);
+  // Strategy 1: paused capture (works on most browsers inc. desktop Safari)
+  video.pause();
+  await new Promise(r => setTimeout(r, 150));
+  const pausedFrame = snap(0.55);
+  if (pausedFrame) {
+    frames.push(pausedFrame);
+    if (dur > 1) {
+      const ok = await seekTo(video, dur * 0.45);
+      if (ok) { const f = snap(0.50); if (f) frames.push(f); }
+      const ok2 = await seekTo(video, dur * 0.65);
+      if (ok2) { const f2 = snap(0.50); if (f2) frames.push(f2); }
+    }
+    console.log(`Paused capture: ${frames.length} frame(s)`);
+    return frames;
+  }
+
+  // Strategy 2: active-playback snapping (iOS Safari fallback)
+  console.log('Trying active playback capture (iOS mode)');
+  const snapTimes = dur > 1 ? [dur * 0.25, dur * 0.45, dur * 0.65] : [0.05];
+  video.muted = true;
+  video.currentTime = 0;
+
+  for (const t of snapTimes) {
+    await new Promise(resolve => {
+      let resolved = false;
+      const timeout = setTimeout(() => { if (!resolved) { resolved = true; resolve(); } }, 3000);
+      video.addEventListener('timeupdate', function onTU() {
+        if (video.currentTime >= t - 0.05) {
+          video.removeEventListener('timeupdate', onTU);
+          clearTimeout(timeout);
+          if (!resolved) {
+            resolved = true;
+            const f = snap(0.55);
+            if (f) frames.push(f);
+            resolve();
+          }
+        }
+      });
+      video.play().catch(() => { clearTimeout(timeout); if (!resolved) { resolved = true; resolve(); } });
+    });
+  }
+
+  video.pause();
+  console.log(`Active playback capture: ${frames.length} frame(s)`);
   return frames;
 }
 
 // ── STEP INDICATOR ──
+const STAGES = [
+  { stage: 'Capturing swing frames...', sub: 'Locking on to your mechanics', pct: 10 },
+  { stage: 'Reading body positions...', sub: 'Tracking hip rotation & shoulder alignment', pct: 32 },
+  { stage: 'Identifying what to fix...', sub: 'Comparing against elite mechanics', pct: 58 },
+  { stage: 'Building your drill plan...', sub: 'Customizing to your level & style', pct: 82 },
+  { stage: 'Finalizing your report...', sub: 'Almost ready — this will be worth it', pct: 95 },
+];
+
 function setStep(n) {
-  for (let i = 1; i <= 4; i++) {
-    const el = document.getElementById('st' + i);
-    el.className = 'step-row' + (i < n ? ' ok' : i === n ? ' on' : '');
+  const s = STAGES[Math.min(n - 1, STAGES.length - 1)];
+  const stageEl = document.getElementById('load-stage');
+  const subEl   = document.getElementById('load-sub');
+  const barEl   = document.getElementById('load-bar');
+  if (!stageEl) return;
+  stageEl.style.opacity = '0'; subEl.style.opacity = '0';
+  setTimeout(() => {
+    stageEl.textContent = s.stage; subEl.textContent = s.sub;
+    if (barEl) barEl.style.width = s.pct + '%';
+    stageEl.style.opacity = '1'; subEl.style.opacity = '1';
+  }, 250);
+  ['rd1','rd2','rd3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.style.opacity = n > i ? '1' : '0';
+  });
+}
+
+function startLoadParticles() {
+  const wrap = document.getElementById('load-particles');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'lp';
+    p.style.left = (Math.random() * 100) + '%';
+    p.style.top  = (40 + Math.random() * 50) + '%';
+    p.style.animationDelay = (Math.random() * 3) + 's';
+    p.style.animationDuration = (2 + Math.random() * 2) + 's';
+    wrap.appendChild(p);
   }
 }
 
@@ -731,6 +809,7 @@ async function runAnalysis() {
   document.getElementById('vid-section').style.display = 'none';
   document.getElementById('res-section').style.display = 'none';
   document.getElementById('load-section').style.display = 'block';
+  startLoadParticles();
   window.scrollTo(0, document.getElementById('load-section').offsetTop - 80);
   setStep(1);
   const video = document.getElementById('vid-el');
@@ -786,6 +865,8 @@ Provide exactly ${drillN} drill objects. Be specific — a kid with no coach sho
     return;
   }
   setStep(4);
+  const barEl = document.getElementById('load-bar');
+  if (barEl) setTimeout(() => { barEl.style.width = '100%'; }, 300);
   S.used++;
   const now = new Date();
   S.history.unshift({ date: now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), label: data.scoreLabel || 'Swing', score: data.overallScore });
