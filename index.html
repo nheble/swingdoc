@@ -4,34 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SwingDoc — Elite Swing Analysis</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy:   #1a2840;
-  --navy2:  #1e3255;
-  --navy3:  #243d68;
-  --cyan:   #4ec8e4;
-  --blue:   #2e6fa3;
-  --blue2:  #3a87c8;
-  --white:  #eef4fb;
-  --muted:  #7896b8;
-  --border: #243855;
-  --green:  #27c98f;
-  --gold:   #f5c518;
-  --red:    #e84545;
-  --card:   #1e3255;
+  --navy:   #0a1628;
+  --navy2:  #0f1f3d;
+  --navy3:  #162847;
+  --cyan:   #ffe600;
+  --blue:   #2979ff;
+  --blue2:  #4d94ff;
+  --white:  #ffffff;
+  --muted:  #6b84a8;
+  --border: #1e3258;
+  --green:  #00e676;
+  --gold:   #ffe600;
+  --red:    #ff3355;
+  --card:   #0d1b33;
+  --orange: #ff8c00;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-serif;min-height:100vh;overflow-x:hidden;}
+body{background:var(--navy);color:var(--white);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
 
 /* SCREENS */
 .screen{display:none;min-height:100vh;flex-direction:column;}
 .screen.active{display:flex;animation:fadeUp .35s ease both;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 60%,rgba(41,121,255,.1) 0%,transparent 55%),radial-gradient(ellipse at 85% 15%,rgba(255,230,0,.06) 0%,transparent 45%);pointer-events:none;z-index:0;}
+.screen.active > *{position:relative;z-index:1;}
 
 /* BUTTONS */
-.btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.85rem 1.5rem;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s ease;}
+.btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.85rem 1.5rem;border-radius:8px;font-family:'Oswald',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s ease;}
 .btn-primary{background:linear-gradient(135deg,var(--cyan),var(--blue2));color:var(--navy);}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(78,200,228,.35);}
 .btn-primary:disabled{opacity:.5;transform:none;cursor:not-allowed;}
@@ -41,14 +44,14 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 /* FORM */
 .fg{width:100%;margin-bottom:.9rem;}
 .fg label{display:block;font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem;}
-.fg input,.fg select,.fg textarea{width:100%;background:var(--navy2);border:1.5px solid var(--border);border-radius:7px;padding:.75rem 1rem;color:var(--white);font-family:'Source Sans 3',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s,box-shadow .2s;appearance:none;}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(78,200,228,.1);}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--navy2);border:1.5px solid var(--border);border-radius:7px;padding:.75rem 1rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s,box-shadow .2s;appearance:none;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,230,0,.1);}
 .fg select option{background:var(--navy2);}
 .fg textarea{resize:vertical;min-height:80px;}
 
 /* PILLS */
 .pill{display:inline-flex;align-items:center;gap:.3rem;border-radius:20px;padding:.25rem .75rem;font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;}
-.pill-cyan{background:rgba(78,200,228,.1);border:1px solid rgba(78,200,228,.22);color:var(--cyan);}
+.pill-cyan{background:rgba(255,230,0,.1);border:1px solid rgba(255,230,0,.22);color:var(--gold);}
 .pill-green{background:rgba(39,201,143,.1);border:1px solid rgba(39,201,143,.22);color:var(--green);}
 .pill-gold{background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.22);color:var(--gold);}
 .pill-muted{background:var(--navy2);border:1px solid var(--border);color:var(--muted);}
@@ -56,34 +59,42 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 /* ===== WELCOME ===== */
 #s-welcome{
   align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem 5rem;
-  background:linear-gradient(175deg,#0e1b2e 0%,#1a2840 50%,#1e3255 100%);
+  background:linear-gradient(165deg,#060d1a 0%,#0a1628 40%,#0f2040 100%);
   position:relative;overflow:hidden;
 }
 #s-welcome::before{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(78,200,228,.08) 0%,transparent 70%);
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 30%,rgba(255,230,0,.04) 0%,transparent 60%),
+    radial-gradient(ellipse 80% 50% at 50% 100%,rgba(41,121,255,.14) 0%,transparent 70%);
   pointer-events:none;
 }
-/* subtle grid lines */
+/* diagonal stripes - athletic field markings */
 #s-welcome::after{
   content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(78,200,228,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(78,200,228,.025) 1px,transparent 1px);
-  background-size:56px 56px;pointer-events:none;
+  background-image:repeating-linear-gradient(
+    -55deg,
+    transparent,
+    transparent 44px,
+    rgba(255,230,0,.03) 44px,
+    rgba(255,230,0,.03) 45px
+  );
+  pointer-events:none;
 }
 .welcome-inner{position:relative;z-index:2;max-width:520px;margin:0 auto;}
 
 /* LOGO — big, proud */
 .logo-hero{margin:0 auto 1.8rem;animation:logoPop .6s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes logoPop{from{opacity:0;transform:scale(.6);}to{opacity:1;transform:scale(1);}}
-.logo-hero img{width:120px;height:120px;border-radius:26px;box-shadow:0 0 0 10px rgba(78,200,228,.08),0 0 0 22px rgba(78,200,228,.04),0 30px 60px rgba(0,0,0,.6);}
+.logo-hero img{width:120px;height:120px;border-radius:26px;box-shadow:0 0 0 10px rgba(255,230,0,.1),0 0 0 24px rgba(255,230,0,.05),0 30px 60px rgba(0,0,0,.7);}
 
-.brand-name{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3.5rem,12vw,5.5rem);font-weight:900;line-height:1;letter-spacing:.02em;margin-bottom:.2rem;animation:fadeUp .45s .1s ease both;}
-.brand-name span{color:var(--cyan);}
-.brand-sub{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);opacity:.75;margin-bottom:1.2rem;animation:fadeUp .45s .15s ease both;}
-.hero-desc{color:var(--muted);font-size:.95rem;line-height:1.7;max-width:420px;margin:0 auto 1.6rem;animation:fadeUp .45s .2s ease both;}
+.brand-name{font-family:'Oswald',sans-serif;font-size:clamp(3.5rem,12vw,5.5rem);font-weight:900;line-height:1;letter-spacing:.02em;margin-bottom:.2rem;animation:fadeUp .45s .1s ease both;}
+.brand-name span{color:var(--gold);text-shadow:0 1px 8px rgba(255,230,0,.2);}
+.brand-sub{font-family:'Oswald',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);opacity:.75;margin-bottom:1.2rem;animation:fadeUp .45s .15s ease both;}
+.hero-desc{color:#8da8cc;font-size:.95rem;line-height:1.7;max-width:420px;margin:0 auto 1.6rem;animation:fadeUp .45s .2s ease both;}
 .pill-row{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;margin-bottom:2rem;animation:fadeUp .45s .25s ease both;}
 .welcome-btns{display:flex;flex-direction:column;gap:.65rem;max-width:280px;margin:0 auto;animation:fadeUp .45s .3s ease both;}
-.mission-bar{position:absolute;bottom:0;left:0;right:0;background:rgba(78,200,228,.05);border-top:1px solid rgba(78,200,228,.1);padding:.65rem 1.5rem;font-size:.73rem;color:var(--muted);text-align:center;z-index:2;}
+.mission-bar{position:absolute;bottom:0;left:0;right:0;background:rgba(255,230,0,.04);border-top:1px solid rgba(255,230,0,.12);padding:.65rem 1.5rem;font-size:.73rem;color:var(--muted);text-align:center;z-index:2;}
 .mission-bar strong{color:var(--cyan);}
 
 /* ===== ONBOARDING ===== */
@@ -93,35 +104,35 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 .step-dots{display:flex;gap:.5rem;margin-bottom:2rem;}
 .dot{width:26px;height:3px;border-radius:2px;background:var(--border);transition:background .3s;}
 .dot.done{background:var(--green);}
-.dot.active{background:var(--cyan);}
+.dot.active{background:var(--gold);}
 /* small logo in onboarding headers */
 .ob-logo{width:44px;height:44px;border-radius:10px;margin:0 auto .8rem;display:block;}
-.ob-h{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;text-align:center;line-height:1.1;margin-bottom:.4rem;}
+.ob-h{font-family:'Oswald',sans-serif;font-size:2.1rem;font-weight:700;text-align:center;line-height:1.1;margin-bottom:.4rem;letter-spacing:.02em;}
 .ob-p{color:var(--muted);font-size:.88rem;text-align:center;margin-bottom:1.5rem;line-height:1.65;}
 
 /* Role cards */
 .role-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;width:100%;margin-bottom:1.4rem;}
 .role-card{background:var(--navy2);border:2px solid var(--border);border-radius:12px;padding:1.3rem 1rem;text-align:center;cursor:pointer;transition:all .2s;}
-.role-card:hover,.role-card.sel{border-color:var(--cyan);background:rgba(78,200,228,.06);}
+.role-card:hover,.role-card.sel{border-color:var(--gold);background:rgba(255,230,0,.05);}
 .rc-icon{font-size:1.9rem;margin-bottom:.35rem;}
-.rc-lbl{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+.rc-lbl{font-family:'Oswald',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
 .rc-desc{font-size:.7rem;color:var(--muted);margin-top:.2rem;line-height:1.4;}
 
 /* Plan cards */
 .plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;width:100%;margin-bottom:1.2rem;}
 .plan-card{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:1.3rem 1.1rem;position:relative;overflow:hidden;transition:transform .2s;}
-.plan-card.pro{border-color:var(--cyan);}
-.plan-card.pro::after{content:'BEST VALUE';position:absolute;top:11px;right:-22px;background:var(--cyan);color:var(--navy);font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;padding:.2rem 2.2rem;transform:rotate(35deg);}
-.plan-name{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.2rem;}
-.plan-card.pro .plan-name{color:var(--cyan);}
-.plan-amt{font-family:'Barlow Condensed',sans-serif;font-size:2.4rem;font-weight:900;line-height:1;}
+.plan-card.pro{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,230,0,.15),0 8px 32px rgba(255,230,0,.1);}
+.plan-card.pro::after{content:'BEST VALUE';position:absolute;top:11px;right:-22px;background:linear-gradient(135deg,#ffe600,#ffb300);color:#0a1628;font-family:'Oswald',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;padding:.2rem 2.2rem;transform:rotate(35deg);}
+.plan-name{font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.2rem;}
+.plan-card.pro .plan-name{color:var(--gold);}
+.plan-amt{font-family:'Oswald',sans-serif;font-size:2.4rem;font-weight:900;line-height:1;}
 .plan-per{font-size:.75rem;color:var(--muted);margin-left:.2rem;}
 .plan-feats{list-style:none;margin:1rem 0;padding:0;}
 .plan-feats li{display:flex;gap:.45rem;padding:.3rem 0;font-size:.77rem;color:#aac4dc;border-bottom:1px solid rgba(255,255,255,.04);align-items:flex-start;line-height:1.45;}
 .plan-feats li:last-child{border-bottom:none;}
 .fy{color:var(--green);flex-shrink:0;}
 .fn{color:var(--border);flex-shrink:0;}
-.plan-btn{width:100%;padding:.65rem;border-radius:7px;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:all .2s;}
+.plan-btn{width:100%;padding:.65rem;border-radius:7px;border:none;cursor:pointer;font-family:'Oswald',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:all .2s;}
 .free-btn{background:var(--navy3);color:var(--white);border:1.5px solid var(--border);}
 .free-btn:hover{border-color:var(--cyan);}
 .pro-btn{background:linear-gradient(135deg,var(--cyan),var(--blue2));color:var(--navy);}
@@ -132,22 +143,22 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 .api-hint a{color:var(--cyan);font-weight:700;text-decoration:underline;}
 
 /* ===== TOP BAR ===== */
-.top-bar{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.4rem;border-bottom:1px solid var(--border);background:rgba(26,40,64,.96);backdrop-filter:blur(14px);position:sticky;top:0;z-index:200;}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.4rem;border-bottom:2px solid var(--gold);background:rgba(10,22,40,.97);backdrop-filter:blur(14px);position:sticky;top:0;z-index:200;}
 .top-logo{display:flex;align-items:center;gap:.6rem;cursor:pointer;}
 .top-logo img{width:34px;height:34px;border-radius:8px;}
-.top-logo-txt{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:.02em;line-height:1;}
+.top-logo-txt{font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:.02em;line-height:1;}
 .top-logo-txt span{color:var(--cyan);}
 .top-right{display:flex;align-items:center;gap:.6rem;}
-.plan-pip{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:20px;border:1px solid;}
+.plan-pip{font-family:'Oswald',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:20px;border:1px solid;}
 .pip-free{color:var(--muted);border-color:var(--border);background:var(--navy2);}
 .pip-pro{color:var(--navy);background:var(--cyan);border-color:var(--cyan);}
-.usage-txt{font-size:.7rem;color:var(--muted);font-family:'Barlow Condensed',sans-serif;letter-spacing:.05em;}
-.av{width:32px;height:32px;background:linear-gradient(135deg,var(--cyan),var(--blue));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;color:var(--navy);cursor:pointer;}
+.usage-txt{font-size:.7rem;color:var(--muted);font-family:'Oswald',sans-serif;letter-spacing:.05em;}
+.av{width:32px;height:32px;background:linear-gradient(135deg,var(--cyan),var(--blue));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:.9rem;font-weight:700;color:var(--navy);cursor:pointer;}
 
 /* ===== DASHBOARD ===== */
 .dash-body{flex:1;max-width:740px;margin:0 auto;width:100%;padding:1.6rem 1.3rem 5rem;}
 .greet-row{margin-bottom:1.4rem;}
-.greet-row h2{font-family:'Barlow Condensed',sans-serif;font-size:1.85rem;font-weight:800;line-height:1.1;}
+.greet-row h2{font-family:'Oswald',sans-serif;font-size:1.85rem;font-weight:800;line-height:1.1;}
 .greet-row p{color:var(--muted);font-size:.86rem;margin-top:.25rem;}
 
 /* banners */
@@ -163,7 +174,7 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 .upload-zone.locked{opacity:.5;pointer-events:none;}
 /* logo in upload zone */
 .uz-logo{width:60px;height:60px;border-radius:14px;margin:0 auto 1rem;display:block;opacity:.9;}
-.upload-zone h3{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:.3rem;}
+.upload-zone h3{font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:.3rem;}
 .upload-zone p{color:var(--muted);font-size:.82rem;margin-bottom:1.1rem;}
 
 /* video */
@@ -178,27 +189,27 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 #load-section{display:none;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.3rem;position:relative;padding:2.2rem 1.8rem 2rem;}
 .load-score-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:1.4rem;}
 .load-ring-outer{width:110px;height:110px;border-radius:50%;position:relative;margin-bottom:.9rem;}
-.load-ring-bg{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--border) 360deg,transparent 0deg);}
+.load-ring-bg{position:absolute;inset:0;border-radius:50%;background:conic-gradient(rgba(255,255,255,.06) 360deg,transparent 0deg);}
 .load-ring-fill{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--cyan) 0deg,transparent 0deg);transition:background .05s linear;}
 .load-ring-hole{position:absolute;inset:10px;background:var(--card);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.load-score-num{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:900;color:var(--cyan);line-height:1;}
+.load-score-num{font-family:'Oswald',sans-serif;font-size:2.2rem;font-weight:900;color:var(--gold);line-height:1;text-shadow:none;}
 .load-score-lbl{font-size:.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
-.load-stage{font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:800;color:var(--white);text-align:center;min-height:1.6rem;letter-spacing:.04em;transition:opacity .25s;}
-.load-sub{color:var(--muted);font-size:.8rem;text-align:center;margin-top:.2rem;min-height:1.1rem;transition:opacity .25s;}
-.load-bar-wrap{width:100%;background:var(--navy3);border-radius:4px;height:3px;margin-top:1.1rem;overflow:hidden;}
-.load-bar{height:3px;background:linear-gradient(90deg,var(--cyan),var(--blue2));border-radius:4px;width:0%;transition:width .5s ease;}
+.load-stage{font-family:'Oswald',sans-serif;font-size:1.15rem;font-weight:700;color:var(--white);text-align:center;min-height:1.6rem;letter-spacing:.05em;transition:opacity .25s;}
+.load-sub{color:#6b84a8;font-size:.8rem;text-align:center;margin-top:.2rem;min-height:1.1rem;transition:opacity .25s;}
+.load-bar-wrap{width:100%;background:rgba(255,255,255,.08);border-radius:4px;height:3px;margin-top:1.1rem;overflow:hidden;}
+.load-bar{height:3px;background:linear-gradient(90deg,#ffe600,#ffb300,#ff8c00);border-radius:4px;width:0%;transition:width .5s ease;}
 
 /* SCORE */
 .score-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.3rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
-.score-left h2{font-family:'Barlow Condensed',sans-serif;font-size:1.45rem;font-weight:800;}
+.score-left h2{font-family:'Oswald',sans-serif;font-size:1.45rem;font-weight:800;}
 .score-left p{color:var(--muted);font-size:.82rem;margin-top:.22rem;line-height:1.5;max-width:400px;}
-.score-ring{width:100px;height:100px;border-radius:50%;background:conic-gradient(var(--cyan) 0deg,var(--border) 0deg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.score-ring{width:100px;height:100px;border-radius:50%;background:conic-gradient(#ffe600 0deg,rgba(255,255,255,.06) 0deg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .score-hole{width:78px;height:78px;background:var(--card);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.score-n{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;color:var(--cyan);line-height:1;}
+.score-n{font-family:'Oswald',sans-serif;font-size:2rem;font-weight:900;color:var(--gold);line-height:1;}
 .score-lbl{font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
 
 /* FEEDBACK CARDS */
-.fb{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:1.2rem;margin-bottom:.9rem;position:relative;overflow:hidden;}
+.fb{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:13px;padding:1.2rem;margin-bottom:.9rem;position:relative;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.3);}
 .fb::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .fb.str::before{background:linear-gradient(90deg,var(--green),#50e8b0);}
 .fb.imp::before{background:linear-gradient(90deg,var(--gold),#f0a020);}
@@ -210,7 +221,7 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 .imp .fb-ico{background:rgba(245,197,24,.08);}
 .drl .fb-ico{background:rgba(78,200,228,.09);}
 .pln .fb-ico{background:rgba(46,111,163,.12);}
-.fb-title{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;}
+.fb-title{font-family:'Oswald',sans-serif;font-size:1rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;}
 .str .fb-title{color:var(--green);}
 .imp .fb-title{color:var(--gold);}
 .drl .fb-title{color:var(--cyan);}
@@ -226,9 +237,9 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 .drill{background:var(--navy3);border-radius:10px;padding:.95rem 1rem;margin-bottom:.7rem;border-left:3px solid var(--cyan);transition:transform .2s;}
 .drill:hover{transform:translateX(4px);}
 .drill-top{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;margin-bottom:.35rem;}
-.drill-num{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
-.drill-name{font-family:'Barlow Condensed',sans-serif;font-size:.98rem;font-weight:700;flex:1;}
-.yt-link{display:inline-flex;align-items:center;gap:.28rem;background:rgba(255,50,50,.08);border:1px solid rgba(255,50,50,.25);border-radius:5px;padding:.18rem .55rem;font-size:.67rem;font-weight:700;color:#ff6060;text-decoration:none;letter-spacing:.06em;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;transition:all .2s;white-space:nowrap;}
+.drill-num{font-family:'Oswald',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.drill-name{font-family:'Oswald',sans-serif;font-size:.98rem;font-weight:700;flex:1;}
+.yt-link{display:inline-flex;align-items:center;gap:.28rem;background:rgba(255,50,50,.08);border:1px solid rgba(255,50,50,.25);border-radius:5px;padding:.18rem .55rem;font-size:.67rem;font-weight:700;color:#ff6060;text-decoration:none;letter-spacing:.06em;font-family:'Oswald',sans-serif;text-transform:uppercase;transition:all .2s;white-space:nowrap;}
 .yt-link:hover{background:rgba(255,50,50,.18);transform:scale(1.04);}
 .drill-body{font-size:.82rem;color:var(--muted);line-height:1.6;}
 .drill-body strong{color:var(--white);}
@@ -236,13 +247,13 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 /* PLAN */
 .day-row{display:flex;gap:.75rem;padding:.48rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.84rem;align-items:flex-start;}
 .day-row:last-child{border-bottom:none;}
-.day-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.73rem;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);min-width:42px;padding-top:1px;}
+.day-lbl{font-family:'Oswald',sans-serif;font-weight:700;font-size:.73rem;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);min-width:42px;padding-top:1px;}
 .day-txt{color:#aac4dc;line-height:1.5;}
 
 /* COACH NOTES */
 .coach-notes-wrap{background:rgba(46,111,163,.07);border:1px solid rgba(46,111,163,.22);border-radius:9px;padding:.95rem;}
 .coach-notes-lbl{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue2);margin-bottom:.55rem;}
-#coachNoteInput{background:var(--navy2);border:1.5px solid rgba(46,111,163,.28);border-radius:7px;padding:.65rem .85rem;color:var(--white);font-family:'Source Sans 3',sans-serif;font-size:.85rem;width:100%;resize:vertical;min-height:76px;outline:none;}
+#coachNoteInput{background:var(--navy2);border:1.5px solid rgba(46,111,163,.28);border-radius:7px;padding:.65rem .85rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:.85rem;width:100%;resize:vertical;min-height:76px;outline:none;}
 #coachNoteInput:focus{border-color:var(--blue2);}
 .saved-note{font-size:.85rem;color:#aac4dc;line-height:1.6;margin-top:.55rem;background:var(--navy2);border-radius:7px;padding:.65rem .85rem;border-left:3px solid var(--blue2);display:none;}
 .coach-notes-section{display:none;}
@@ -250,31 +261,32 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
 
 /* HISTORY */
 .history-mini{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:.9rem;margin-bottom:1rem;}
-.history-mini h4{font-family:'Barlow Condensed',sans-serif;font-size:.88rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem;}
+.history-mini h4{font-family:'Oswald',sans-serif;font-size:.88rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem;}
 .h-row{display:flex;align-items:center;gap:.75rem;padding:.38rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.8rem;}
 .h-row:last-child{border-bottom:none;}
-.h-date{color:var(--muted);min-width:64px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:.05em;}
+.h-date{color:var(--muted);min-width:64px;font-family:'Oswald',sans-serif;font-size:.75rem;letter-spacing:.05em;}
 .h-label{flex:1;color:#aac4dc;}
-.h-score{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;color:var(--cyan);}
+.h-score{font-family:'Oswald',sans-serif;font-size:.95rem;font-weight:700;color:var(--cyan);}
 
 /* RELOAD */
 .reload-card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:1.2rem;text-align:center;margin-bottom:1rem;}
-.reload-card h3{font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.25rem;}
+.reload-card h3{font-family:'Oswald',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.25rem;}
 .reload-card p{color:var(--muted);font-size:.8rem;margin-bottom.9rem;}
 .reload-btns{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:.9rem;}
 
 /* UPSELL */
 .upsell{background:linear-gradient(135deg,rgba(78,200,228,.06),rgba(46,111,163,.04));border:1px solid rgba(78,200,228,.2);border-radius:12px;padding:1.1rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap;margin-bottom:.9rem;}
 .upsell-ico{font-size:1.7rem;flex-shrink:0;}
-.upsell-txt h4{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:800;color:var(--cyan);margin-bottom:.15rem;}
+.upsell-txt h4{font-family:'Oswald',sans-serif;font-size:1rem;font-weight:800;color:var(--cyan);margin-bottom:.15rem;}
 .upsell-txt p{font-size:.77rem;color:var(--muted);line-height:1.5;}
 .upsell-action{margin-left:auto;}
 
 /* SMALL BUTTONS */
-.bs{padding:.55rem 1rem;font-size:.84rem;border-radius:7px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;white-space:nowrap;}
-.bs-cyan{background:linear-gradient(135deg,var(--cyan),var(--blue2));color:var(--navy);}
-.bs-cyan:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(78,200,228,.3);}
-.bs-ghost{background:var(--navy3);color:var(--white);border:1px solid var(--border);}
+.bs{padding:.55rem 1rem;font-size:.84rem;border-radius:7px;font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;white-space:nowrap;}
+.bs-cyan{background:linear-gradient(135deg,#ffe600 0%,#ffb300 60%,#ff8c00 100%);color:#0a1628;font-weight:800;letter-spacing:.02em;box-shadow:0 3px 14px rgba(255,180,0,.22),inset 0 1px 0 rgba(255,255,255,.18);}
+.bs-cyan:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(255,180,0,.28);}
+.bs-cyan:active{transform:translateY(0);box-shadow:0 2px 12px rgba(255,180,0,.3);}
+.bs-ghost{background:rgba(255,255,255,.04);color:var(--white);border:1.5px solid rgba(255,255,255,.15);}
 .bs-ghost:hover{border-color:var(--cyan);color:var(--cyan);}
 
 /* PRINT */
@@ -294,6 +306,13 @@ body{background:var(--navy);color:var(--white);font-family:'Source Sans 3',sans-
   .brand-name{font-size:3.2rem;}
   .dash-body{padding:1.2rem .9rem 4rem;}
 }
+
+/* ── QUICK FIX CARDS ── */
+.qv-fix{display:flex;align-items:flex-start;gap:.75rem;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:10px;padding:.85rem 1rem;margin-bottom:.5rem;}
+.qv-fix-num{font-family:'Oswald',sans-serif;font-size:1.4rem;color:var(--red);line-height:1;flex-shrink:0;min-width:1.2rem;font-weight:700;}
+.qv-fix-text{font-size:.88rem;color:var(--white);line-height:1.5;padding-top:.1rem;}
+
+.score-hero{border-top:2px solid var(--gold) !important;}
 </style>
 </head>
 <body>
@@ -489,8 +508,26 @@ window.addEventListener('DOMContentLoaded', () => {
 
     <div id="vid-section">
       <div class="vid-wrap"><video id="vid-el" controls playsinline></video></div>
+      <div class="intake-box">
+        <div class="intake-title">Quick Questions <span class="intake-badge">Improves accuracy</span></div>
+        <div class="intake-row">
+          <label class="intake-label">What's your biggest struggle at the plate?</label>
+          <div class="intake-chips" id="struggle-chips">
+            <button class="chip" onclick="setStruggle('Making contact')">Making contact</button>
+            <button class="chip" onclick="setStruggle('Hitting for power')">Hitting for power</button>
+            <button class="chip" onclick="setStruggle('Timing')">Timing</button>
+            <button class="chip" onclick="setStruggle('Hitting outside pitches')">Outside pitches</button>
+            <button class="chip" onclick="setStruggle('Inside pitches')">Inside pitches</button>
+            <button class="chip" onclick="setStruggle('Consistency')">Consistency</button>
+          </div>
+        </div>
+        <div class="intake-row">
+          <label class="intake-label">Anything a coach has told you before? <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+          <input type="text" class="intake-input" id="coach-note-inp" placeholder="e.g. 'Keep your elbow up' or 'You're lunging'" />
+        </div>
+      </div>
       <div class="vid-actions">
-        <button class="bs bs-cyan" onclick="runAnalysis()">🔍 Analyze This Swing</button>
+        <button class="bs bs-cyan" onclick="runAnalysis()">⚡ Analyze My Swing</button>
         <button class="bs bs-ghost" onclick="resetVid()">↩ Different Video</button>
       </div>
     </div>
@@ -512,17 +549,62 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div id="res-section" style="display:none;">
-      <div class="score-wrap">
-        <div class="score-left"><h2 id="res-label">Swing Analysis</h2><p id="res-intro"></p></div>
-        <div class="score-ring" id="score-ring"><div class="score-hole"><div class="score-n" id="score-n">--</div><div class="score-lbl">/ 100</div></div></div>
+
+      <!-- SCORE HERO -->
+      <div class="score-hero">
+        <div class="score-hero-left">
+          <div class="score-ring" id="score-ring">
+            <div class="score-hole">
+              <div class="score-n" id="score-n">--</div>
+              <div class="score-lbl">/ 100</div>
+            </div>
+          </div>
+          <div class="score-hero-text">
+            <div class="score-label" id="res-label">Swing Analysis</div>
+            <div class="score-intro" id="res-intro"></div>
+          </div>
+        </div>
       </div>
-      <div class="fb str"><div class="fb-hd"><div class="fb-ico">💪</div><div class="fb-title">What You're Doing Right</div></div><ul class="fb-list str" id="str-list"></ul></div>
-      <div class="fb imp"><div class="fb-hd"><div class="fb-ico">🎯</div><div class="fb-title">Fix These First</div></div><ul class="fb-list imp" id="imp-list"></ul></div>
-      <div class="fb drl"><div class="fb-hd"><div class="fb-ico">🏋️</div><div class="fb-title">Drill Prescription</div></div><div id="drl-list"></div></div>
-      <div class="fb pln" id="plan-card"><div class="fb-hd"><div class="fb-ico">📅</div><div class="fb-title">7-Day Practice Plan</div></div><div id="plan-list"></div></div>
-      <div class="upsell" id="plan-upsell" style="display:none;"><div class="upsell-ico">📅</div><div class="upsell-txt"><h4>Unlock Your 7-Day Practice Plan</h4><p>Pro also gets unlimited analyses, swing history, and printable reports.</p></div><div class="upsell-action"><button class="bs bs-cyan" onclick="go('s-pricing')">Go Pro →</button></div></div>
-      <div class="fb pln coach-notes-section" id="coach-notes-section"><div class="fb-hd"><div class="fb-ico">📝</div><div class="fb-title">Coach Notes</div></div><div class="coach-notes-wrap"><div class="coach-notes-lbl">Your coaching notes for this player</div><textarea id="coachNoteInput" placeholder="e.g. Front shoulder staying closed better today. Focus on drill 2 before Thursday's game..."></textarea><div style="display:flex;gap:.6rem;margin-top:.55rem;"><button class="bs bs-cyan" onclick="saveNote()">Save Note</button><button class="bs bs-ghost" onclick="clearNote()">Clear</button></div><div class="saved-note" id="saved-note"></div></div></div>
-      <div class="reload-card"><h3>Work the Drills. Come Back. 🔄</h3><p style="margin-bottom:0;margin-top:.25rem;">Take a few practice sessions, then re-film to track your progress.</p><div class="reload-btns"><button class="bs bs-cyan" onclick="reloadSwing()">🔄 Analyze New Swing</button><button class="bs bs-ghost" onclick="window.print()">🖨️ Print Report</button><button class="bs bs-ghost" onclick="resetFull()">🏠 Home</button></div></div>
+
+      <!-- QUICK VIEW: 1 strength + 2 fixes + 2 drills -->
+      <div class="quick-view">
+
+        <div class="qv-block qv-strength">
+          <div class="qv-tag">⚡ STRENGTH</div>
+          <div class="qv-text" id="qv-strength"></div>
+        </div>
+
+        <div class="qv-label">2 THINGS TO WORK ON</div>
+        <div class="qv-fixes" id="qv-fixes"></div>
+
+        <div class="qv-label">YOUR DRILLS</div>
+        <div class="qv-drills" id="qv-drills"></div>
+
+        <button class="scout-report-btn" onclick="toggleScoutReport()">
+          <span id="scout-btn-label">📋 See Full Scouting Report</span>
+        </button>
+      </div>
+
+      <!-- FULL SCOUTING REPORT (hidden by default) -->
+      <div class="scout-report" id="scout-report" style="display:none;">
+        <div class="scout-header">FULL SCOUTING REPORT</div>
+        <div class="fb str"><div class="fb-hd"><div class="fb-ico">💪</div><div class="fb-title">All Strengths</div></div><ul class="fb-list str" id="str-list"></ul></div>
+        <div class="fb imp"><div class="fb-hd"><div class="fb-ico">🎯</div><div class="fb-title">Areas to Improve</div></div><ul class="fb-list imp" id="imp-list"></ul></div>
+        <div class="fb drl"><div class="fb-hd"><div class="fb-ico">🏋️</div><div class="fb-title">Full Drill Plan</div></div><div id="drl-list"></div></div>
+        <div class="fb pln" id="plan-card" style="display:none;"><div class="fb-hd"><div class="fb-ico">📅</div><div class="fb-title">7-Day Practice Plan</div></div><div id="plan-list"></div></div>
+        <div class="upsell" id="plan-upsell" style="display:none;"><div class="upsell-ico">📅</div><div class="upsell-txt"><h4>Unlock Your 7-Day Plan</h4><p>Pro gets unlimited analyses + 7-day personalized practice plan.</p></div><div class="upsell-action"><button class="bs bs-cyan" onclick="go('s-pricing')">Go Pro →</button></div></div>
+        <div class="fb pln coach-notes-section" id="coach-notes-section"><div class="fb-hd"><div class="fb-ico">📝</div><div class="fb-title">Coach Notes</div></div><div class="coach-notes-wrap"><div class="coach-notes-lbl">Your coaching notes for this player</div><textarea id="coachNoteInput" placeholder="e.g. Front shoulder staying closed better today..."></textarea><div style="display:flex;gap:.6rem;margin-top:.55rem;"><button class="bs bs-cyan" onclick="saveNote()">Save Note</button><button class="bs bs-ghost" onclick="clearNote()">Clear</button></div><div class="saved-note" id="saved-note"></div></div></div>
+      </div>
+
+      <div class="reload-card">
+        <div class="reload-card-inner">
+          <div class="reload-msg">Work the drills. Come back. Film again. 🔄</div>
+          <div class="reload-btns">
+            <button class="bs bs-cyan" onclick="reloadSwing()">Analyze New Swing</button>
+            <button class="bs bs-ghost" onclick="resetFull()">Home</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -537,7 +619,7 @@ const CONFIG = {
 };
 
 // ── STATE ──
-const S = { role: null, name: '', level: '', hand: '', plan: 'free', used: 0, history: [] };
+const S = { role: null, name: '', level: '', hand: '', plan: 'free', used: 0, history: [], struggle: '', coachNote: '' };
 
 // ── YOUTUBE DRILL LINKS ──
 const YT = {
@@ -572,10 +654,18 @@ function go(id) {
 }
 
 // ── ONBOARDING ──
+function setStruggle(val) {
+  S.struggle = S.struggle === val ? '' : val;
+  document.querySelectorAll('.intake-chips .chip').forEach(c => {
+    c.classList.toggle('sel', c.textContent === val && S.struggle === val);
+  });
+}
 function pickRole(r) {
   S.role = r;
   document.querySelectorAll('.role-card').forEach(c => c.classList.remove('sel'));
   document.getElementById('rc-' + r).classList.add('sel');
+  // Auto-advance after brief visual feedback
+  setTimeout(() => fromRole(), 320);
 }
 function fromRole() {
   if (!S.role) { alert('Please select your role.'); return; }
@@ -654,6 +744,8 @@ function loadVid(file) {
 }
 function resetVid() {
   document.getElementById('upload-zone').style.display = 'block';
+  S.struggle = S.struggle || '';
+  S.coachNote = (document.getElementById('coach-note-inp') || {}).value || '';
   document.getElementById('vid-section').style.display = 'none';
   document.getElementById('file-in').value = '';
 }
@@ -820,7 +912,7 @@ function animateScoreTo(target, duration) {
     if (numEl) numEl.textContent = _currentDisplayScore;
     const deg = Math.round((_currentDisplayScore / 100) * 360);
     const fillEl = document.getElementById('load-ring-fill');
-    if (fillEl) fillEl.style.background = `conic-gradient(var(--cyan) ${deg}deg, transparent ${deg}deg)`;
+    if (fillEl) fillEl.style.background = `conic-gradient(#ffe600 ${deg}deg, rgba(255,255,255,.05) ${deg}deg)`;
     if (step >= steps) clearInterval(_scoreTimer);
   }, 55);
 }
@@ -872,19 +964,36 @@ async function runAnalysis() {
 
   const isPro = S.plan === 'pro';
   const isCoach = S.role === 'coach';
-  const drillN = isPro ? 5 : 3;
+  const drillN = 2;
   const hasFrames = frames.length > 0;
   const mobileMode = isMobileSafari();
 
-  const prompt = `You are a former MLB scout and elite hitting coach with 20+ years evaluating hitters at every level. ${isCoach ? 'COACH MODE: The user is a coach. Use precise biomechanical teaching language with cues they can relay to players.' : 'PLAYER MODE: Speak directly to the player. Use "you" and "your." Be encouraging but honest.'}
-${S.level ? 'Player level: ' + S.level + '.' : ''} ${S.hand ? 'Batter is ' + S.hand + '.' : ''}
-${hasFrames ? `Analyze the ${frames.length} image frame(s) from this specific player's swing. Be precise about what YOU SEE in these exact frames — describe specific body positions, angles, and timing you observe. Do not give generic advice.` : 'The player uploaded a swing video but image extraction was not possible. Generate a DETAILED, SPECIFIC swing analysis for a ' + (S.level || 'youth baseball') + ' ' + (S.hand || 'right-handed') + ' batter as if you watched it. Be specific about body parts and positions — do not give generic advice. Do not mention that you could not see the video.'}
+  const prompt = `You are a former MLB scout and elite hitting coach with 20+ years developing hitters at every level from Little League to the pros. ${isCoach ? 'COACH MODE: The user is a coach. Use precise biomechanical teaching language with cues they can relay to players.' : 'PLAYER MODE: Speak directly to the player. Use "you" and "your." Be encouraging, specific, and constructive — never harsh.'}
+Player level: ${S.level || 'youth baseball'}. ${S.hand ? 'Batter is ' + S.hand + '-handed.' : ''}${S.struggle ? ' Player says their biggest struggle is: ' + S.struggle + '.' : ''}${S.coachNote ? ' Previous coach feedback: "' + S.coachNote + '".' : ''}
+
+${hasFrames ? `You are looking at key moments from this player's swing — their load position, the moment of contact, and their follow-through. Evaluate what you can observe in these positions. Speak naturally about "at contact," "in your load," "through the zone" — never mention "frames" or "images."` : `Analyze this ${S.level || 'youth'} ${S.hand || 'right-handed'} hitter's swing. Be specific about body positions and mechanics. Never mention that you could not see the video.`}
+
+SCORING PHILOSOPHY — CRITICAL:
+- Scores represent swing POTENTIAL and current skill relative to the player's own level (${S.level || 'youth'})
+- A player showing up and swinging with any athleticism starts at 65
+- Most players at this level score 68-82. Only truly elite mechanics score 85+
+- Only score below 65 if mechanics are genuinely dangerous or counterproductive
+- Be ENCOURAGING — this player trusted you with their swing. Build confidence while giving real feedback
+- NEVER comment on stride width, stance width, or foot positioning unless you can clearly see a player's feet AND it is dramatically outside normal range — camera angles make these impossible to judge reliably
+- Only flag issues you can CLEARLY observe. When in doubt, give the benefit of the doubt
+
+Evaluate these 5 checkpoints and use them to inform your score:
+1. LOAD: Is their weight loaded back at stride? Hands in launch position?
+2. STRIDE/TIMING: Does the front foot land softly and on time?
+3. HIP ROTATION: Do the hips fire before the hands?
+4. CONTACT POSITION: Are hands inside the ball? Barrel through the zone?
+5. FOLLOW-THROUGH: Full extension? Balance at finish?
 
 Return ONLY valid JSON — no markdown, no extra text:
 
-{"overallScore":74,"scoreLabel":"Developing Hitter","intro":"2 concrete sentences about what you observe. Start with one specific mechanical observation.","strengths":["Specific strength — name a body part or timing cue","Second specific strength","Third specific strength"],"improvements":["Specific flaw — what the body is doing wrong AND why it costs them","Second specific flaw","Third specific flaw"],"drills":[{"name":"Hip Rotation Drill","focus":"The exact mechanical problem this fixes","howTo":"2-3 sentences a 12-year-old can follow alone","reps":"3 sets × 10 daily"}],"practicePlan":${isPro ? '[{"day":"MON","activity":"Specific drill + focus cue + reps"},{"day":"TUE","activity":"Tee work description + cue"},{"day":"WED","activity":"Active rest — soft toss or shadow swings"},{"day":"THU","activity":"Drill combo — two drills back to back"},{"day":"FRI","activity":"Cage work — full swings, one cue only"},{"day":"SAT","activity":"Game or live BP — execute the one drilled cue"},{"day":"SUN","activity":"Re-film your swing and compare to this report."}]' : 'null'}}
+{"overallScore":74,"scoreLabel":"Developing Hitter","intro":"2 encouraging, specific sentences about what you observe in their swing. Lead with a genuine strength.","strengths":["Specific strength with natural hitting language — e.g. 'Your hands stay back through your load'","Second specific strength","Third specific strength"],"improvements":["One specific thing to work on — what it is AND a simple cue to fix it","Second improvement with a cue","Third improvement with a cue"],"drills":[{"name":"Drill Name","focus":"The exact checkpoint this improves","howTo":"2-3 sentences a player can follow alone at home","reps":"3 sets × 10 reps daily"}],"practicePlan":${isPro ? '[{"day":"MON","activity":"Specific drill + focus cue + reps"},{"day":"TUE","activity":"Tee work — one specific cue"},{"day":"WED","activity":"Active rest — shadow swings or soft toss"},{"day":"THU","activity":"Drill combo focusing on biggest improvement area"},{"day":"FRI","activity":"Cage work — full swings with one cue only"},{"day":"SAT","activity":"Game or live BP — trust your mechanics"},{"day":"SUN","activity":"Re-film and compare to today\'s report"}]' : 'null'}}
 
-Provide exactly ${drillN} drill objects. Be specific — a kid with no coach should be able to follow this and get better.`;
+Provide exactly 2 improvements and exactly 2 drill objects. Keep each point tight — one clear, actionable sentence. Write like a great coach who believes in this player.`;
 
   const content = [{ type: 'text', text: prompt }];
   frames.forEach(f => content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: f } }));
@@ -939,7 +1048,7 @@ function render(data) {
     // Stamp real score prominently in report
     document.getElementById('score-n').textContent = score;
     const deg = Math.round((score / 100) * 360);
-    document.getElementById('score-ring').style.background = `conic-gradient(var(--cyan) ${deg}deg, var(--border) ${deg}deg)`;
+    document.getElementById('score-ring').style.background = `conic-gradient(#ffe600 ${deg}deg, rgba(255,255,255,.06) ${deg}deg)`;
     document.getElementById('res-label').textContent = data.scoreLabel || 'Swing Analysis';
     document.getElementById('res-intro').textContent = data.intro || '';
     document.getElementById('str-list').innerHTML = (data.strengths || []).map(s => `<li><div class="blt"></div><span>${s}</span></li>`).join('');
