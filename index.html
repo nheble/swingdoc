@@ -52,7 +52,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 /* PILLS */
 .pill{display:inline-flex;align-items:center;gap:.3rem;border-radius:20px;padding:.25rem .75rem;font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;}
 .pill-cyan{background:rgba(255,230,0,.1);border:1px solid rgba(255,230,0,.22);color:var(--gold);}
-.pill-green{background:rgba(39,201,143,.1);border:1px solid rgba(39,201,143,.22);color:var(--green);}
+.pill-green{background:rgba(255,230,0,.1);border:1px solid rgba(255,230,0,.22);color:var(--gold);}
 .pill-gold{background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.22);color:var(--gold);}
 .pill-muted{background:var(--navy2);border:1px solid var(--border);color:var(--muted);}
 
@@ -200,23 +200,23 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .load-bar{height:3px;background:linear-gradient(90deg,#ffe600,#ffb300,#ff8c00);border-radius:4px;width:0%;transition:width .5s ease;}
 
 /* SCORE */
-.score-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.3rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.score-wrap{background:linear-gradient(135deg,var(--navy2) 0%,var(--navy3) 100%);border:1px solid var(--border);border-top:2px solid var(--gold);border-radius:14px;padding:1.4rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;box-shadow:0 4px 20px rgba(0,0,0,.4);}
 .score-left h2{font-family:'Oswald',sans-serif;font-size:1.45rem;font-weight:800;}
 .score-left p{color:var(--muted);font-size:.82rem;margin-top:.22rem;line-height:1.5;max-width:400px;}
-.score-ring{width:100px;height:100px;border-radius:50%;background:conic-gradient(#ffe600 0deg,rgba(255,255,255,.06) 0deg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.score-hole{width:78px;height:78px;background:var(--card);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.score-ring{width:110px;height:110px;border-radius:50%;background:conic-gradient(#ffe600 0deg,rgba(255,255,255,.06) 0deg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.score-hole{width:86px;height:86px;background:var(--navy2);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .score-n{font-family:'Oswald',sans-serif;font-size:2rem;font-weight:900;color:var(--gold);line-height:1;}
 .score-lbl{font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
 
 /* FEEDBACK CARDS */
-.fb{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:13px;padding:1.2rem;margin-bottom:.9rem;position:relative;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.fb{background:linear-gradient(160deg,var(--card) 0%,rgba(15,31,61,.8) 100%);border:1px solid var(--border);border-radius:13px;padding:1.3rem;margin-bottom:.9rem;position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.35);}
 .fb::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.fb.str::before{background:linear-gradient(90deg,var(--green),#50e8b0);}
+.fb.str::before{background:linear-gradient(90deg,var(--gold),#ffe97a);}
 .fb.imp::before{background:linear-gradient(90deg,var(--gold),#f0a020);}
-.fb.drl::before{background:linear-gradient(90deg,var(--cyan),var(--blue2));}
+.fb.drl::before{background:linear-gradient(90deg,var(--blue2),#80b8ff);}
 .fb.pln::before{background:linear-gradient(90deg,var(--blue),#5dade2);}
 .fb-hd{display:flex;align-items:center;gap:.55rem;margin-bottom:.85rem;}
-.fb-ico{width:29px;height:29px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.fb-ico{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
 .str .fb-ico{background:rgba(39,201,143,.1);}
 .imp .fb-ico{background:rgba(245,197,24,.08);}
 .drl .fb-ico{background:rgba(78,200,228,.09);}
@@ -234,12 +234,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .imp .blt{background:var(--gold);}
 
 /* DRILLS */
-.drill{background:var(--navy3);border-radius:10px;padding:.95rem 1rem;margin-bottom:.7rem;border-left:3px solid var(--cyan);transition:transform .2s;}
-.drill:hover{transform:translateX(4px);}
-.drill-top{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;margin-bottom:.35rem;}
-.drill-num{font-family:'Oswald',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
-.drill-name{font-family:'Oswald',sans-serif;font-size:.98rem;font-weight:700;flex:1;}
-.yt-link{display:inline-flex;align-items:center;gap:.28rem;background:rgba(255,50,50,.08);border:1px solid rgba(255,50,50,.25);border-radius:5px;padding:.18rem .55rem;font-size:.67rem;font-weight:700;color:#ff6060;text-decoration:none;letter-spacing:.06em;font-family:'Oswald',sans-serif;text-transform:uppercase;transition:all .2s;white-space:nowrap;}
+.drill{background:linear-gradient(135deg,var(--navy2) 0%,var(--navy3) 100%);border-radius:12px;padding:1.1rem 1.2rem;margin-bottom:.75rem;border-left:3px solid var(--blue2);transition:all .2s;box-shadow:0 2px 10px rgba(0,0,0,.3);}
+.drill:hover{transform:translateX(3px);box-shadow:0 4px 16px rgba(0,0,0,.4);}
+.drill-top{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.45rem;}
+.drill-top-row1{display:flex;align-items:center;gap:.5rem;}
+.drill-num{font-family:'Oswald',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0a1628;background:var(--gold);padding:.15rem .5rem;border-radius:4px;flex-shrink:0;white-space:nowrap;}
+.drill-name{font-family:'Oswald',sans-serif;font-size:.92rem;font-weight:600;color:var(--white);letter-spacing:.02em;line-height:1.2;flex:1;min-width:0;}
+.yt-link{display:inline-flex;align-items:center;gap:.35rem;background:linear-gradient(135deg,rgba(255,50,50,.15),rgba(200,20,20,.1));border:1px solid rgba(255,80,80,.35);border-radius:6px;padding:.3rem .7rem;font-size:.72rem;font-weight:700;color:#ff7070;text-decoration:none;letter-spacing:.05em;font-family:'Oswald',sans-serif;text-transform:uppercase;transition:all .18s;white-space:nowrap;}
 .yt-link:hover{background:rgba(255,50,50,.18);transform:scale(1.04);}
 .drill-body{font-size:.82rem;color:var(--muted);line-height:1.6;}
 .drill-body strong{color:var(--white);}
@@ -313,6 +314,33 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .qv-fix-text{font-size:.88rem;color:var(--white);line-height:1.5;padding-top:.1rem;}
 
 .score-hero{border-top:2px solid var(--gold) !important;}
+
+/* ── KEYWORD HIGHLIGHTS ── */
+.kw{color:var(--gold);font-weight:700;font-style:normal;}
+.drill-focus{color:var(--white);font-weight:700;}
+.drill-reps{color:var(--muted);font-size:.82rem;}
+
+/* ── INTAKE SELECT ── */
+.intake-select{width:100%;background:var(--navy2);border:1.5px solid var(--border);border-radius:8px;padding:.7rem 1rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:.9rem;outline:none;cursor:pointer;appearance:none;transition:border-color .2s;}
+.intake-select:focus{border-color:var(--gold);}
+.intake-select option{background:var(--navy2);color:var(--white);}
+
+/* ── SCORE WRAP ── */
+.score-wrap{background:var(--card);border:1px solid var(--border);border-top:2px solid var(--gold);border-radius:14px;padding:1.3rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.score-left{flex:1;}
+.score-left h2{font-family:'Oswald',sans-serif;font-size:1.45rem;font-weight:600;letter-spacing:.03em;}
+.score-left p{color:#8da8cc;font-size:.9rem;margin-top:.4rem;line-height:1.6;max-width:400px;}
+
+/* ── FB LIST items prettier ── */
+.fb-list{list-style:none;padding:0;margin:0;}
+.fb-list li{display:flex;align-items:flex-start;gap:.75rem;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.92rem;line-height:1.6;}
+.fb-list li:last-child{border-bottom:none;padding-bottom:0;}
+.blt{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.48rem;box-shadow:0 0 4px rgba(255,230,0,.3);}
+.fb.imp .blt{background:var(--red);}
+.fb.drl .blt{background:var(--blue2);}
+
+.drill-focus-line{font-size:.82rem;color:var(--gold);font-weight:600;margin:.4rem 0 .3rem;letter-spacing:.01em;}
+.drill-reps-line{display:inline-block;margin-top:.45rem;font-size:.75rem;font-weight:700;color:#0a1628;background:var(--blue2);padding:.2rem .6rem;border-radius:4px;letter-spacing:.05em;font-family:'Oswald',sans-serif;text-transform:uppercase;}
 </style>
 </head>
 <body>
@@ -337,7 +365,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <p class="hero-desc">The same hitting feedback that used to cost $100/hour — free. Real analysis, targeted drills, and a practice plan built around your swing.</p>
     <div class="pill-row">
       <div class="pill pill-cyan">⚾ AI Scout Analysis</div>
-      <div class="pill pill-green">🎯 Personalized Drills</div>
+      <div class="pill pill-cyan">🎯 Personalized Drills</div>
       <div class="pill pill-gold">📅 Practice Plans</div>
       <div class="pill pill-muted">🆓 Free to Start</div>
     </div>
@@ -509,22 +537,17 @@ window.addEventListener('DOMContentLoaded', () => {
     <div id="vid-section">
       <div class="vid-wrap"><video id="vid-el" controls playsinline></video></div>
       <div class="intake-box">
-        <div class="intake-title">Quick Questions <span class="intake-badge">Improves accuracy</span></div>
-        <div class="intake-row">
-          <label class="intake-label">What's your biggest struggle at the plate?</label>
-          <div class="intake-chips" id="struggle-chips">
-            <button class="chip" onclick="setStruggle('Making contact')">Making contact</button>
-            <button class="chip" onclick="setStruggle('Hitting for power')">Hitting for power</button>
-            <button class="chip" onclick="setStruggle('Timing')">Timing</button>
-            <button class="chip" onclick="setStruggle('Hitting outside pitches')">Outside pitches</button>
-            <button class="chip" onclick="setStruggle('Inside pitches')">Inside pitches</button>
-            <button class="chip" onclick="setStruggle('Consistency')">Consistency</button>
-          </div>
-        </div>
-        <div class="intake-row">
-          <label class="intake-label">Anything a coach has told you before? <span style="color:var(--muted);font-weight:400">(optional)</span></label>
-          <input type="text" class="intake-input" id="coach-note-inp" placeholder="e.g. 'Keep your elbow up' or 'You're lunging'" />
-        </div>
+        <label class="intake-label">What's your biggest struggle at the plate?</label>
+        <select class="intake-select" id="struggle-select" onchange="S.struggle=this.value">
+          <option value="">— Select one (optional) —</option>
+          <option value="Making contact">Making contact</option>
+          <option value="Hitting for power">Hitting for power</option>
+          <option value="Timing pitches">Timing pitches</option>
+          <option value="Hitting outside pitches">Hitting outside pitches</option>
+          <option value="Hitting inside pitches">Hitting inside pitches</option>
+          <option value="Consistency">Consistency</option>
+          <option value="Hitting off-speed pitches">Off-speed pitches</option>
+        </select>
       </div>
       <div class="vid-actions">
         <button class="bs bs-cyan" onclick="runAnalysis()">⚡ Analyze My Swing</button>
@@ -549,52 +572,16 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div id="res-section" style="display:none;">
-
-      <!-- SCORE HERO -->
-      <div class="score-hero">
-        <div class="score-hero-left">
-          <div class="score-ring" id="score-ring">
-            <div class="score-hole">
-              <div class="score-n" id="score-n">--</div>
-              <div class="score-lbl">/ 100</div>
-            </div>
-          </div>
-          <div class="score-hero-text">
-            <div class="score-label" id="res-label">Swing Analysis</div>
-            <div class="score-intro" id="res-intro"></div>
-          </div>
-        </div>
+      <div class="score-wrap">
+        <div class="score-left"><h2 id="res-label">Swing Analysis</h2><p id="res-intro"></p></div>
+        <div class="score-ring" id="score-ring"><div class="score-hole"><div class="score-n" id="score-n">--</div><div class="score-lbl">/ 100</div></div></div>
       </div>
-
-      <!-- QUICK VIEW: 1 strength + 2 fixes + 2 drills -->
-      <div class="quick-view">
-
-        <div class="qv-block qv-strength">
-          <div class="qv-tag">⚡ STRENGTH</div>
-          <div class="qv-text" id="qv-strength"></div>
-        </div>
-
-        <div class="qv-label">2 THINGS TO WORK ON</div>
-        <div class="qv-fixes" id="qv-fixes"></div>
-
-        <div class="qv-label">YOUR DRILLS</div>
-        <div class="qv-drills" id="qv-drills"></div>
-
-        <button class="scout-report-btn" onclick="toggleScoutReport()">
-          <span id="scout-btn-label">📋 See Full Scouting Report</span>
-        </button>
-      </div>
-
-      <!-- FULL SCOUTING REPORT (hidden by default) -->
-      <div class="scout-report" id="scout-report" style="display:none;">
-        <div class="scout-header">FULL SCOUTING REPORT</div>
-        <div class="fb str"><div class="fb-hd"><div class="fb-ico">💪</div><div class="fb-title">All Strengths</div></div><ul class="fb-list str" id="str-list"></ul></div>
-        <div class="fb imp"><div class="fb-hd"><div class="fb-ico">🎯</div><div class="fb-title">Areas to Improve</div></div><ul class="fb-list imp" id="imp-list"></ul></div>
-        <div class="fb drl"><div class="fb-hd"><div class="fb-ico">🏋️</div><div class="fb-title">Full Drill Plan</div></div><div id="drl-list"></div></div>
-        <div class="fb pln" id="plan-card" style="display:none;"><div class="fb-hd"><div class="fb-ico">📅</div><div class="fb-title">7-Day Practice Plan</div></div><div id="plan-list"></div></div>
-        <div class="upsell" id="plan-upsell" style="display:none;"><div class="upsell-ico">📅</div><div class="upsell-txt"><h4>Unlock Your 7-Day Plan</h4><p>Pro gets unlimited analyses + 7-day personalized practice plan.</p></div><div class="upsell-action"><button class="bs bs-cyan" onclick="go('s-pricing')">Go Pro →</button></div></div>
-        <div class="fb pln coach-notes-section" id="coach-notes-section"><div class="fb-hd"><div class="fb-ico">📝</div><div class="fb-title">Coach Notes</div></div><div class="coach-notes-wrap"><div class="coach-notes-lbl">Your coaching notes for this player</div><textarea id="coachNoteInput" placeholder="e.g. Front shoulder staying closed better today..."></textarea><div style="display:flex;gap:.6rem;margin-top:.55rem;"><button class="bs bs-cyan" onclick="saveNote()">Save Note</button><button class="bs bs-ghost" onclick="clearNote()">Clear</button></div><div class="saved-note" id="saved-note"></div></div></div>
-      </div>
+      <div class="fb str"><div class="fb-hd"><div class="fb-ico">💪</div><div class="fb-title">What You're Doing Right</div></div><ul class="fb-list" id="str-list"></ul></div>
+      <div class="fb imp"><div class="fb-hd"><div class="fb-ico">🎯</div><div class="fb-title">Fix These First</div></div><ul class="fb-list" id="imp-list"></ul></div>
+      <div class="fb drl"><div class="fb-hd"><div class="fb-ico">🏋️</div><div class="fb-title">Drill Prescription</div></div><div id="drl-list"></div></div>
+      <div class="fb pln" id="plan-card" style="display:none;"><div class="fb-hd"><div class="fb-ico">📅</div><div class="fb-title">7-Day Practice Plan</div></div><div id="plan-list"></div></div>
+      <div class="upsell" id="plan-upsell" style="display:none;"><div class="upsell-ico">📅</div><div class="upsell-txt"><h4>Unlock Your 7-Day Practice Plan</h4><p>Pro gets unlimited analyses, swing history, and a personalized 7-day plan.</p></div><div class="upsell-action"><button class="bs bs-cyan" onclick="go('s-pricing')">Go Pro →</button></div></div>
+      <div class="fb pln coach-notes-section" id="coach-notes-section"><div class="fb-hd"><div class="fb-ico">📝</div><div class="fb-title">Coach Notes</div></div><div class="coach-notes-wrap"><div class="coach-notes-lbl">Your coaching notes for this player</div><textarea id="coachNoteInput" placeholder="e.g. Front shoulder staying closed better today..."></textarea><div style="display:flex;gap:.6rem;margin-top:.55rem;"><button class="bs bs-cyan" onclick="saveNote()">Save Note</button><button class="bs bs-ghost" onclick="clearNote()">Clear</button></div><div class="saved-note" id="saved-note"></div></div></div>
 
       <div class="reload-card">
         <div class="reload-card-inner">
@@ -744,7 +731,7 @@ function loadVid(file) {
 }
 function resetVid() {
   document.getElementById('upload-zone').style.display = 'block';
-  S.struggle = S.struggle || '';
+  S.struggle = (document.getElementById('struggle-select') || {}).value || S.struggle || '';
   S.coachNote = (document.getElementById('coach-note-inp') || {}).value || '';
   document.getElementById('vid-section').style.display = 'none';
   document.getElementById('file-in').value = '';
@@ -968,32 +955,40 @@ async function runAnalysis() {
   const hasFrames = frames.length > 0;
   const mobileMode = isMobileSafari();
 
-  const prompt = `You are a former MLB scout and elite hitting coach with 20+ years developing hitters at every level from Little League to the pros. ${isCoach ? 'COACH MODE: The user is a coach. Use precise biomechanical teaching language with cues they can relay to players.' : 'PLAYER MODE: Speak directly to the player. Use "you" and "your." Be encouraging, specific, and constructive — never harsh.'}
-Player level: ${S.level || 'youth baseball'}. ${S.hand ? 'Batter is ' + S.hand + '-handed.' : ''}${S.struggle ? ' Player says their biggest struggle is: ' + S.struggle + '.' : ''}${S.coachNote ? ' Previous coach feedback: "' + S.coachNote + '".' : ''}
+  const prompt = `You are a former MLB scout and elite hitting coach — 20+ years developing hitters from Little League to the pros. Think Ted Williams meets a great youth coach: technically brilliant, genuinely encouraging, never vague.
 
-${hasFrames ? `You are looking at key moments from this player's swing — their load position, the moment of contact, and their follow-through. Evaluate what you can observe in these positions. Speak naturally about "at contact," "in your load," "through the zone" — never mention "frames" or "images."` : `Analyze this ${S.level || 'youth'} ${S.hand || 'right-handed'} hitter's swing. Be specific about body positions and mechanics. Never mention that you could not see the video.`}
+${isCoach ? 'COACH MODE: Biomechanical language, teachable cues a coach can relay directly to players.' : 'PLAYER MODE: Talk directly to the player. Use "you" and "your." Sound like their best coach, not a robot.'}
+Level: ${S.level || 'youth baseball'}. ${S.hand ? S.hand + '-handed batter.' : ''}${S.struggle ? ' Player flagged their biggest struggle as: ' + S.struggle + '.' : ''}
 
-SCORING PHILOSOPHY — CRITICAL:
-- Scores represent swing POTENTIAL and current skill relative to the player's own level (${S.level || 'youth'})
-- A player showing up and swinging with any athleticism starts at 65
-- Most players at this level score 68-82. Only truly elite mechanics score 85+
-- Only score below 65 if mechanics are genuinely dangerous or counterproductive
-- Be ENCOURAGING — this player trusted you with their swing. Build confidence while giving real feedback
-- NEVER comment on stride width, stance width, or foot positioning unless you can clearly see a player's feet AND it is dramatically outside normal range — camera angles make these impossible to judge reliably
-- Only flag issues you can CLEARLY observe. When in doubt, give the benefit of the doubt
+${hasFrames ? 'You are reviewing key moments from this player\'s swing — their load, contact point, and finish. Use natural coaching language: "at contact," "through your load," "into your finish." Never say "frame" or "image."' : 'Analyze this ' + (S.level || 'youth') + ' ' + (S.hand || 'right-handed') + ' hitter. Be specific — never mention you couldn\'t see the video.'}
 
-Evaluate these 5 checkpoints and use them to inform your score:
-1. LOAD: Is their weight loaded back at stride? Hands in launch position?
-2. STRIDE/TIMING: Does the front foot land softly and on time?
-3. HIP ROTATION: Do the hips fire before the hands?
-4. CONTACT POSITION: Are hands inside the ball? Barrel through the zone?
-5. FOLLOW-THROUGH: Full extension? Balance at finish?
+SCORING — CRITICAL:
+- Score relative to THIS player\'s level (${S.level || 'youth'}) not the pros
+- Starting baseline: 65 for any athletic swing attempt
+- Typical range: 68–82. Reserve 83+ for genuinely strong mechanics
+- Never go below 62 unless mechanics are actively harmful
+- Only flag what you can CLEARLY observe — never guess at foot/stance width from camera angle
+
+CHECKPOINTS (use to inform score):
+1. LOAD — weight back, hands in launch position
+2. HIP ROTATION — hips fire before hands
+3. CONTACT — hands inside ball, barrel through zone
+4. FINISH — full extension, balanced
+
+FEEDBACK STYLE — CRITICAL:
+- 2 strengths, 2 improvements. No more.
+- Each point: ONE sentence. 15–25 words. Specific body part + action verb + outcome.
+- Wrap the KEY ACTION PHRASE in each sentence with [[double brackets]] — the verb + its object, e.g. [[your hands stay back]], [[barrel drifts above the zone]], [[hips fire before your hands]], [[front shoulder flies open]]. Include at least 2 [[phrases]] per point.
+- Strengths: genuine and specific — name exactly what body part does what, and why it creates power or consistency.
+- Improvements: frame as an opportunity. End with a one-phrase cue in single quotes.
+- Intro: 1–2 sentences. Lead with the most impressive thing you see. Warm, direct, confident.
+- NEVER use: "however," "but," "unfortunately," "needs work," "struggles with"
 
 Return ONLY valid JSON — no markdown, no extra text:
 
-{"overallScore":74,"scoreLabel":"Developing Hitter","intro":"2 encouraging, specific sentences about what you observe in their swing. Lead with a genuine strength.","strengths":["Specific strength with natural hitting language — e.g. 'Your hands stay back through your load'","Second specific strength","Third specific strength"],"improvements":["One specific thing to work on — what it is AND a simple cue to fix it","Second improvement with a cue","Third improvement with a cue"],"drills":[{"name":"Drill Name","focus":"The exact checkpoint this improves","howTo":"2-3 sentences a player can follow alone at home","reps":"3 sets × 10 reps daily"}],"practicePlan":${isPro ? '[{"day":"MON","activity":"Specific drill + focus cue + reps"},{"day":"TUE","activity":"Tee work — one specific cue"},{"day":"WED","activity":"Active rest — shadow swings or soft toss"},{"day":"THU","activity":"Drill combo focusing on biggest improvement area"},{"day":"FRI","activity":"Cage work — full swings with one cue only"},{"day":"SAT","activity":"Game or live BP — trust your mechanics"},{"day":"SUN","activity":"Re-film and compare to today\'s report"}]' : 'null'}}
+{"overallScore":74,"scoreLabel":"Developing Hitter","intro":"1-2 warm, specific sentences — lead with what impressed you most.","strengths":["One sentence, 15-25 words, specific body part + what it does well","Second strength — equally specific"],"improvements":["One sentence opportunity framing + one cue in quotes — e.g. \"Your hands can start their journey a split second earlier — think \'early hands\' as your trigger\"","Second improvement — same format"],"drills":[{"name":"Drill Name","focus":"The exact checkpoint this sharpens","howTo":"2 sentences max — clear enough for a 12-year-old alone in the backyard","reps":"3 sets × 10 daily"},{"name":"Drill Name","focus":"Second checkpoint","howTo":"2 sentences max","reps":"3 sets × 10 daily"}],"practicePlan":${isPro ? '[{"day":"MON","activity":"Drill 1 — specific cue + reps"},{"day":"TUE","activity":"Tee work — one cue only"},{"day":"WED","activity":"Shadow swings — feel the movement"},{"day":"THU","activity":"Drill 2 — focus on today\'s improvement"},{"day":"FRI","activity":"Cage — full swings, trust your mechanics"},{"day":"SAT","activity":"Game reps — one cue, let it happen"},{"day":"SUN","activity":"Re-film and compare to this report"}]' : 'null'}}
 
-Provide exactly 2 improvements and exactly 2 drill objects. Keep each point tight — one clear, actionable sentence. Write like a great coach who believes in this player.`;
+Exactly 2 strengths, 2 improvements, 2 drills. Write like a coach who genuinely believes in this player.`;
 
   const content = [{ type: 'text', text: prompt }];
   frames.forEach(f => content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: f } }));
@@ -1035,6 +1030,38 @@ Provide exactly 2 improvements and exactly 2 drill objects. Keep each point tigh
   renderHistory();
 }
 
+// ── KEYWORD HIGHLIGHTER ──
+// ── PHRASE HIGHLIGHTER — marks verb phrases + key mechanics ──
+// Prompt instructs the model to wrap key phrases in [[double brackets]]
+// highlightKeywords converts those to bold yellow spans
+function highlightKeywords(text) {
+  if (!text) return '';
+  // Convert [[phrase]] markers from the AI into bold highlights
+  let out = text.replace(/\[\[(.+?)\]\]/g, '<strong class="kw">$1</strong>');
+  // Fallback: also catch bare high-value mechanics terms if no brackets present
+  if (!out.includes('class="kw"')) {
+    const PHRASES = [
+      'hip rotation fires','barrel drifts','barrel arrives','barrel drops','hands stay back',
+      'hips fire before','shoulder flies open','shoulder pulls off','weight shifts','front shoulder opens',
+      'hands get long','bat path flattens','hands lead','hips unload','stays closed',
+      'drive through the ball','stay through it','stay through','stay closed','stay back',
+      'fires before your hands','unlocks power','generates bat speed','loads early',
+      'hip rotation','bat path','bat speed','weight transfer','swing plane','follow-through',
+      'front shoulder','back shoulder','back hip','top hand','bottom hand','front foot',
+      'contact zone','early extension','drop the barrel','inside the ball',
+      'hip','hips','hands','shoulder','elbow','barrel','wrist','core','knee',
+      'load','contact','stride','rotation','extension','separation','coil','lag',
+      'balance','drive','power','path','finish','launch','torque','slot'
+    ];
+    const sorted = PHRASES.sort((a,b) => b.length - a.length);
+    sorted.forEach(kw => {
+      const re = new RegExp('(?<![\\w-])(' + kw.replace(/[-]/g,'[-\\s]') + ')(?![\\w-])', 'gi');
+      out = out.replace(re, (m) => `<strong class="kw">${m}</strong>`);
+    });
+  }
+  return out;
+}
+
 function render(data) {
   const isPro = S.plan === 'pro';
   const isCoach = S.role === 'coach';
@@ -1051,9 +1078,9 @@ function render(data) {
     document.getElementById('score-ring').style.background = `conic-gradient(#ffe600 ${deg}deg, rgba(255,255,255,.06) ${deg}deg)`;
     document.getElementById('res-label').textContent = data.scoreLabel || 'Swing Analysis';
     document.getElementById('res-intro').textContent = data.intro || '';
-    document.getElementById('str-list').innerHTML = (data.strengths || []).map(s => `<li><div class="blt"></div><span>${s}</span></li>`).join('');
-    document.getElementById('imp-list').innerHTML = (data.improvements || []).map(s => `<li><div class="blt"></div><span>${s}</span></li>`).join('');
-    document.getElementById('drl-list').innerHTML = (data.drills || []).map((d, i) => `<div class="drill"><div class="drill-top"><span class="drill-num">DRILL ${String(i+1).padStart(2,'0')}</span><span class="drill-name">${d.name}</span><a href="${ytLink(d.name)}" target="_blank" rel="noopener" class="yt-link">▶ YouTube</a></div><div class="drill-body"><strong>${d.focus}</strong><br>${d.howTo} <em style="color:var(--muted);">${d.reps}</em></div></div>`).join('');
+    document.getElementById('str-list').innerHTML = (data.strengths || []).map(s => `<li><div class="blt"></div><span>${highlightKeywords(s)}</span></li>`).join('');
+    document.getElementById('imp-list').innerHTML = (data.improvements || []).map(s => `<li><div class="blt"></div><span>${highlightKeywords(s)}</span></li>`).join('');
+    document.getElementById('drl-list').innerHTML = (data.drills || []).map((d, i) => `<div class="drill"><div class="drill-top"><div class="drill-top-row1"><span class="drill-num">DRILL ${String(i+1).padStart(2,'0')}</span><span class="drill-name">${d.name}</span></div><a href="${ytLink(d.name)}" target="_blank" rel="noopener" class="yt-link">▶ Watch on YouTube</a></div><div class="drill-focus-line">${highlightKeywords(d.focus)}</div><div class="drill-body">${highlightKeywords(d.howTo)}</div><div class="drill-reps-line">${d.reps}</div></div>`).join('');
     if (isPro && data.practicePlan) {
       document.getElementById('plan-card').style.display = 'block';
       document.getElementById('plan-upsell').style.display = 'none';
