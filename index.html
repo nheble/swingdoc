@@ -387,7 +387,7 @@ window.addEventListener('DOMContentLoaded', () => {
 <div class="screen" id="s-role">
   <div class="ob-shell">
     <button class="ob-back" onclick="go('s-welcome')">← Back</button>
-    <div class="step-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="step-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
     <img data-logo src="" alt="SwingDoc" class="ob-logo" />
     <div class="ob-h">Who Are You?</div>
     <div class="ob-p">SwingDoc tailors every analysis to your role.</div>
@@ -411,7 +411,7 @@ window.addEventListener('DOMContentLoaded', () => {
 <div class="screen" id="s-profile">
   <div class="ob-shell">
     <button class="ob-back" onclick="go('s-role')">← Back</button>
-    <div class="step-dots"><div class="dot done"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="step-dots"><div class="dot done"></div><div class="dot active"></div><div class="dot"></div></div>
     <img data-logo src="" alt="SwingDoc" class="ob-logo" />
     <div class="ob-h" id="profile-h">Tell Us About You</div>
     <div class="ob-p">30 seconds. Helps us personalize every analysis.</div>
@@ -436,7 +436,7 @@ window.addEventListener('DOMContentLoaded', () => {
 <div class="screen" id="s-pricing">
   <div class="ob-shell" style="max-width:580px;">
     <button class="ob-back" onclick="go('s-profile')">← Back</button>
-    <div class="step-dots"><div class="dot done"></div><div class="dot done"></div><div class="dot active"></div><div class="dot"></div></div>
+    <div class="step-dots"><div class="dot done"></div><div class="dot done"></div><div class="dot active"></div></div>
     <img data-logo src="" alt="SwingDoc" class="ob-logo" />
     <div class="ob-h">Choose Your Plan</div>
     <div class="ob-p">Start free. No credit card needed. Upgrade anytime.</div>
@@ -471,26 +471,6 @@ window.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
     <p style="font-size:.72rem;color:var(--muted);text-align:center;line-height:1.6;">Free tier is genuinely useful — not crippled. Our mission is to even the playing field for every player regardless of zip code.</p>
-  </div>
-</div>
-
-<!-- ═══════ API KEY ═══════ -->
-<div class="screen" id="s-api">
-  <div class="ob-shell">
-    <button class="ob-back" onclick="go('s-pricing')">← Back</button>
-    <div class="step-dots"><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot active"></div></div>
-    <img data-logo src="" alt="SwingDoc" class="ob-logo" />
-    <div class="ob-h">One Last Step</div>
-    <div class="ob-p">SwingDoc uses Claude AI. Paste your Anthropic API key to get started.</div>
-    <div class="api-hint">
-      💡 <strong>Get your free key:</strong> Go to <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → Sign Up → API Keys → Create Key.<br><br>
-      Your key stays on your device only and is never shared.
-    </div>
-    <div class="fg">
-      <label>Anthropic API Key</label>
-      <input type="password" id="inp-key" placeholder="sk-ant-api03-..." autocomplete="off" />
-    </div>
-    <button class="btn btn-primary" style="margin-top:.3rem;" onclick="finishSetup()">Let's Play Ball ⚾</button>
   </div>
 </div>
 
@@ -677,14 +657,8 @@ function fromProfile() {
   S.name = n; S.level = document.getElementById('inp-level').value; S.hand = document.getElementById('inp-hand').value;
   go('s-pricing');
 }
-function pickPlan(p) { S.plan = p; go('s-api'); }
-function finishSetup() {
-  const k = document.getElementById('inp-key').value.trim();
-  if (!k) { alert('Please paste your Anthropic API key.'); return; }
-  if (!k.startsWith('sk-')) { alert('That doesn\'t look right — the key should start with sk-ant-...'); return; }
-  localStorage.setItem('sd_key', k);
-  launch();
-}
+function pickPlan(p) { S.plan = p; launch(); }
+// API key not required - handled server-side via Netlify function
 function signIn() {
   const n = document.getElementById('li-name').value.trim();
   const k = document.getElementById('li-key').value.trim();
