@@ -968,23 +968,7 @@ Level: ${S.level || 'youth baseball'}. ${S.hand ? S.hand + '-handed batter.' : '
 
 ${hasFrames ? 'You are reviewing key moments from this player\'s swing — their load, contact point, and finish. Use natural coaching language: "at contact," "through your load," "into your finish." Never say "frame" or "image."' : 'Analyze this ' + (S.level || 'youth') + ' ' + (S.hand || 'right-handed') + ' hitter. Be specific — never mention you couldn\'t see the video.'}
 
-SCORING — CRITICAL:
-- Score relative to THIS player\'s level (${S.level || 'youth'}) not the pros
-- Starting baseline: 65 for any athletic swing attempt
-- Typical range: 68–82. Reserve 83+ for genuinely strong mechanics
-- Never go below 62 unless mechanics are actively harmful
-- Only flag what you can CLEARLY observe — never guess at foot/stance width from camera angle
-
-CHECKPOINTS (use to inform score):
-1. LOAD — weight back, hands in launch position
-2. HIP ROTATION — hips fire before hands
-3. CONTACT — hands inside ball, barrel through zone
-4. FINISH — full extension, balanced
-
-FEEDBACK STYLE — CRITICAL:
-- 2 strengths, 2 improvements. No more.
-- Each point: ONE sentence. 15–25 words. Specific body part + action verb + outcome.
-- Wrap the KEY ACTION PHRASE in each sentence with [[double brackets]] — the verb + its object, e.g. [[your hands stay back]], [[barrel drifts above the zone]], [[hips fire before your hands]], [[front shoulder flies open]]. Include at least 2 [[phrases]] per point.
+SCORING — CRITICAL:\n- Score relative to THIS player\'s level (${S.level || 'youth'}) not the pros\n- Use the FULL range of the scale — do not cluster scores in the 70s and 80s\n- Scoring scale:\n  * 62-67: Significant mechanical issues actively hurting the swing\n  * 68-74: Developing — clear areas to fix, some good pieces\n  * 75-82: Solid — above average for the level, a few things to clean up\n  * 83-89: Strong — genuinely impressive mechanics, minor refinements only\n  * 90-95: Elite — exceptional mechanics for the level, nearly everything is right\n  * 96-99: Reserved for textbook-perfect swings with virtually nothing to fix\n- A College/Semi-Pro player with elite hip sequencing, clean bat path, full extension, and balanced finish SHOULD score 90+\n- Never artificially cap scores — if the swing earns a 93, give it a 93\n- Never go below 62 unless mechanics are actively harmful\n- Only flag what you can CLEARLY observe — never guess at foot/stance width from camera angle\n\nCHECKPOINTS (use to inform score):\n1. LOAD — weight back, hands in launch position\n2. HIP ROTATION — hips fire before hands\n3. CONTACT — hands inside ball, barrel through zone\n4. FINISH — full extension, balanced\n\nFEEDBACK STYLE — CRITICAL:\n- Always 2 strengths, always 2 improvements. But calibrate improvements to the score: if the swing scores 90+, improvements must be minor refinements (tiny timing tweaks, marginal gains) — not real flaws. A 90+ swing has earned mostly praise. If below 90, give 2 genuine specific improvements.\n- Each point: ONE sentence. 15–25 words. Specific body part + action verb + outcome.\n- Wrap the KEY ACTION PHRASE in each sentence with [[double brackets]] — the verb + its object, e.g. [[your hands stay back]], [[barrel drifts above the zone]], [[hips fire before your hands]], [[front shoulder flies open]]. Include at least 2 [[phth [[double brackets]] — the verb + its object, e.g. [[your hands stay back]], [[barrel drifts above the zone]], [[hips fire before your hands]], [[front shoulder flies open]]. Include at least 2 [[phrases]] per point.
 - Strengths: genuine and specific — name exactly what body part does what, and why it creates power or consistency.
 - Improvements: frame as an opportunity. End with a one-phrase cue in single quotes.
 - Intro: 1–2 sentences. Lead with the most impressive thing you see. Warm, direct, confident.
