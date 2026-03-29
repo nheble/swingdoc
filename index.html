@@ -482,7 +482,6 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="ob-h">Welcome Back</div>
     <div class="ob-p">Enter your details to continue.</div>
     <div class="fg"><label>First Name</label><input type="text" id="li-name" placeholder="Marcus" /></div>
-    <div class="fg"><label>Anthropic API Key</label><input type="password" id="li-key" placeholder="sk-ant-api03-..." autocomplete="off" /></div>
     <div class="fg"><label>Your Role</label><select id="li-role"><option value="player">Player</option><option value="coach">Coach</option></select></div>
     <button class="btn btn-primary" style="margin-top:.3rem;" onclick="signIn()">Sign In →</button>
   </div>
@@ -661,10 +660,8 @@ function pickPlan(p) { S.plan = p; launch(); }
 // API key not required - handled server-side via Netlify function
 function signIn() {
   const n = document.getElementById('li-name').value.trim();
-  const k = document.getElementById('li-key').value.trim();
   if (!n) { alert('Please enter your name.'); return; }
-  if (!k) { alert('Please enter your API key.'); return; }
-  S.name = n; S.apiKey = k; S.role = document.getElementById('li-role').value; S.plan = 'free'; launch();
+  S.name = n; S.role = document.getElementById('li-role').value; S.plan = 'free'; launch();
 }
 
 function launch() {
